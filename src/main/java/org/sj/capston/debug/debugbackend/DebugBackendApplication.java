@@ -1,0 +1,13 @@
+package org.sj.capston.debug.debugbackend;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class DebugBackendApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DebugBackendApplication.class, args);
+    }
+
+}
