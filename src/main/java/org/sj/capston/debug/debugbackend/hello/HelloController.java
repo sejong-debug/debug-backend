@@ -1,9 +1,8 @@
 package org.sj.capston.debug.debugbackend.hello;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.sj.capston.debug.debugbackend.common.Result;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/hello")
@@ -12,13 +11,30 @@ public class HelloController {
 
     private final HelloService helloService;
 
-    @GetMapping
-    public Hello getHello() {
-        Hello hello = Hello.builder()
-                .name("Test Hello")
+    @GetMapping("/{id}")
+    public Result<HelloDto> getHello(@PathVariable long id) {
+
+        Hello findHello = helloService.getById(id);
+        HelloDto helloDto = new HelloDto(findHello);
+
+        return Result.<HelloDto>builder()
+                .success(true)
+                .data(helloDto)
                 .build();
-        long helloId = helloService.save(hello);
-        Hello findHello = helloService.getById(helloId);
-        return findHello;
+    }
+
+    @PostMapping
+    public Result<Void> saveHello(@RequestBody HelloDto helloDto) {
+
+        Hello hello = Hello.builder()
+                .name(helloDto.getName())
+                .description(helloDto.getDescription())
+                .build();
+
+        helloService.save(hello);
+
+        return Result.<Void>builder()
+                .success(true)
+                .build();
     }
 }
