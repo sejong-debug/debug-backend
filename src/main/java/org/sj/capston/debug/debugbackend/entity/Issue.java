@@ -24,7 +24,7 @@ public class Issue {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "image_info_id", nullable = false)
-    private ImageInfo imageInfo;
+    private BoardImage boardImage;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 45)

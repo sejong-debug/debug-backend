@@ -13,7 +13,7 @@ import static lombok.AccessLevel.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
-public class ImageInfo extends BaseTimeEntity {
+public class BoardImage extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -23,10 +23,16 @@ public class ImageInfo extends BaseTimeEntity {
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
-    @Column(nullable = false)
-    private String imgPath;
-
     @Column(nullable = false, length = 45)
     @Enumerated(EnumType.STRING)
     private CropType cropType;
+
+    @Column(nullable = false)
+    private String originName;
+
+    @Column(nullable = false)
+    private String storedName;
+
+    @Column(nullable = false, length = 25)
+    private String ext;
 }
