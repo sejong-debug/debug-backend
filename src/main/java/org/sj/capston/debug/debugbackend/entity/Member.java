@@ -12,7 +12,7 @@ import static lombok.AccessLevel.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
-public class User extends BaseTimeEntity {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
