@@ -1,4 +1,4 @@
-package org.sj.capston.debug.debugbackend.config;
+package org.sj.capston.debug.debugbackend.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
