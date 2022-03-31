@@ -1,5 +1,6 @@
 package org.sj.capston.debug.debugbackend.auth;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,20 +19,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
 
+    private final ObjectMapper objectMapper;
+
+    private final JwtTokenProvider jwtTokenProvider;
+
     @Bean
-    public PasswordEncoder bCryptPasswordEncoder() {
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // local session 사용하지 않음
+        http
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(corsFilter)
                 .formLogin().disable()
                 .httpBasic().disable()
+                .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider, objectMapper))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtTokenProvider))
                 .authorizeHttpRequests()
-                .anyRequest().permitAll();
+                .mvcMatchers("/", "/join").permitAll();
     }
 }
