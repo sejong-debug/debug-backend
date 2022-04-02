@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.sj.capston.debug.debugbackend.dto.LoginDto;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,6 +41,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
         String token = jwtTokenProvider.createToken(authResult);
-        response.addHeader(HttpHeaders.AUTHORIZATION, JwtTokenProvider.TOKEN_PREFIX + token);
+        TokenDto tokenDto = new TokenDto(token);
+        response.getWriter().write(objectMapper.writeValueAsString(tokenDto));
     }
 }
