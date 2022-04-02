@@ -23,10 +23,6 @@ public class BoardImage extends BaseTimeEntity {
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
-    @Column(nullable = false, length = 45)
-    @Enumerated(EnumType.STRING)
-    private CropType cropType;
-
     @Column(nullable = false)
     private String originName;
 
