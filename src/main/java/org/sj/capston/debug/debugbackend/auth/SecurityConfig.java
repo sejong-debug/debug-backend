@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtAuthenticationFilter(authenticationManager(), jwtTokenProvider, objectMapper))
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtTokenProvider))
                 .authorizeHttpRequests()
-                .mvcMatchers("/", "/join").permitAll();
+                .mvcMatchers("/", "/join").permitAll()
+                .anyRequest().authenticated();
     }
 }
