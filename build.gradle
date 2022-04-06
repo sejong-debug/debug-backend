@@ -48,6 +48,11 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
+test {
+    outputs.dir snippetsDir
+    useJUnitPlatform()
+}
+
 asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
