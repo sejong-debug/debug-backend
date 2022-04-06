@@ -1,16 +1,25 @@
 package org.sj.capston.debug.debugbackend.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.sj.capston.debug.debugbackend.common.BaseControllerTest;
+import org.sj.capston.debug.debugbackend.common.RestDocsConfig;
 import org.sj.capston.debug.debugbackend.dto.JoinDto;
 import org.sj.capston.debug.debugbackend.dto.LoginDto;
 import org.sj.capston.debug.debugbackend.entity.Member;
 import org.sj.capston.debug.debugbackend.repository.MemberRepository;
 import org.sj.capston.debug.debugbackend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
@@ -22,7 +31,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class IndexControllerTest extends BaseControllerTest {
+@SpringBootTest
+@AutoConfigureMockMvc
+@AutoConfigureRestDocs
+@Import(RestDocsConfig.class)
+@ActiveProfiles("test")
+@Transactional
+class IndexControllerTest {
+
+    @Autowired
+    MockMvc mockMvc;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Autowired
     MemberService memberService;
