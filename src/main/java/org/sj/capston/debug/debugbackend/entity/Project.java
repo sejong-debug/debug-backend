@@ -1,13 +1,16 @@
 package org.sj.capston.debug.debugbackend.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
-import static javax.persistence.FetchType.*;
-import static javax.persistence.GenerationType.*;
-import static lombok.AccessLevel.*;
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
 @Getter
@@ -27,9 +30,11 @@ public class Project extends BaseTimeEntity {
     @Column(nullable = false, length = 45)
     private String name;
 
-    private LocalDateTime startedDate;
+    private CropType cropType;
 
-    private LocalDateTime endDate;
+    private LocalDate startedDate;
+
+    private LocalDate endDate;
 
     @Column(name = "is_completed", nullable = false)
     @Builder.Default
