@@ -32,7 +32,7 @@ public class Project extends BaseTimeEntity {
 
     private CropType cropType;
 
-    private LocalDate startedDate;
+    private LocalDate startDate;
 
     private LocalDate endDate;
 

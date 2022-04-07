@@ -3,8 +3,11 @@ package org.sj.capston.debug.debugbackend.controller;
 import lombok.RequiredArgsConstructor;
 import org.sj.capston.debug.debugbackend.auth.PrincipalDetails;
 import org.sj.capston.debug.debugbackend.dto.ProjectCreationDto;
+import org.sj.capston.debug.debugbackend.dto.ProjectDto;
 import org.sj.capston.debug.debugbackend.entity.CropType;
 import org.sj.capston.debug.debugbackend.service.ProjectService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -22,6 +25,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 public class ProjectController {
 
     private final ProjectService projectService;
+
+    @GetMapping
+    public ResponseEntity<Slice<ProjectDto>> queryProjects(
+            Pageable pageable, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        return ResponseEntity
+                .ok(projectService.getProjectSlice(pageable, principalDetails.getMemberId()));
+    }
 
     @PostMapping
     public ResponseEntity<Void> createProject(

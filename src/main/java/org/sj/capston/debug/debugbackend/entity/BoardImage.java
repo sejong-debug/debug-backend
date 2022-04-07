@@ -13,7 +13,7 @@ import static lombok.AccessLevel.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
-public class BoardImage extends BaseTimeEntity {
+public class BoardImage {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost/debug
-    username: -
-    password: -
+    url: jdbc:mysql://localhost/sj_debug
+    username: root
+    password: sj_debug
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -16,5 +16,5 @@ logging.level:
   org.hibernate.SQL: debug
 
 jwt:
-  secret: -
-  token-validity-in-seconds: -
+  secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
+  token-validity-in-seconds: 86400
