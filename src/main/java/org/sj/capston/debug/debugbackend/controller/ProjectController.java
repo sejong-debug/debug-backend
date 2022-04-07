@@ -26,6 +26,11 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
+    @GetMapping("/{projectId}")
+    public ResponseEntity<ProjectDto> getProject(@PathVariable long projectId){
+        return ResponseEntity.ok(projectService.getProject(projectId));
+    }
+
     @GetMapping
     public ResponseEntity<Slice<ProjectDto>> queryProjects(
             Pageable pageable, @AuthenticationPrincipal PrincipalDetails principalDetails) {

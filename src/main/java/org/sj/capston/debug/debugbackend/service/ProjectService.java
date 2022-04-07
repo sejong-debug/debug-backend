@@ -19,6 +19,12 @@ public class ProjectService {
 
     private final MemberRepository memberRepository;
 
+    public ProjectDto getProject(long projectId) {
+        return projectRepository.findById(projectId)
+                .map(ProjectDto::of)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 projectId = " + projectId));
+    }
+
     public long createProject(ProjectCreationDto creationDto, long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 memberId = " + memberId));
