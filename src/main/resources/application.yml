@@ -13,8 +13,16 @@ spring:
         format_sql: true
         default_batch_fetch_size: 100
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
 logging.level:
   org.hibernate.SQL: debug
+
+my-app:
+  image:
+    dir: -
 
 jwt:
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
