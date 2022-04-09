@@ -19,16 +19,9 @@ public class BoardImage {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "board_id", nullable = false)
-    private Board board;
-
     @Column(nullable = false)
     private String originName;
 
     @Column(nullable = false)
     private String storedName;
-
-    @Column(nullable = false, length = 25)
-    private String ext;
 }

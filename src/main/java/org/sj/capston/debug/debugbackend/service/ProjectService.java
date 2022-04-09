@@ -36,6 +36,7 @@ public class ProjectService {
                 .member(member)
                 .startDate(creationDto.getStartDate())
                 .endDate(creationDto.getEndDate())
+                .cropType(creationDto.getCropType())
                 .build();
         return projectRepository.save(project).getId();
     }

@@ -24,12 +24,14 @@ public class Project extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @Column(nullable = false, length = 45)
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 25)
     private CropType cropType;
 
     private LocalDate startDate;

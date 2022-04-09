@@ -50,6 +50,7 @@ public class ProjectController {
                 .build();
     }
 
+
     @GetMapping("/crop-types")
     public ResponseEntity<List<String>> getAllCropTypes() {
         List<String> result = Arrays.stream(CropType.values())
