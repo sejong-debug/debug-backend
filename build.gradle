@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.6.5'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.asciidoctor.convert' version '1.5.8'
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
     id 'java'
 }
 
@@ -32,6 +32,10 @@ dependencies {
 
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
 
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'
 
@@ -44,12 +48,30 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-tasks.named('test') {
+test {
     outputs.dir snippetsDir
     useJUnitPlatform()
 }
 
-tasks.named('asciidoctor') {
+asciidoctor {
     inputs.dir snippetsDir
     dependsOn test
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from("${asciidoctor.outputDir}") {
+        into "BOOT-INF/classes/static/docs"
+    }
+    finalizedBy 'copyDocument'
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+    from file("build/docs/asciidoc")
+    into file("src/main/resources/static/docs")
 }
