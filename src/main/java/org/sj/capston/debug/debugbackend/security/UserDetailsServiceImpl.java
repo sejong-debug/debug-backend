@@ -20,6 +20,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 username: " + username));
-        return new MemberContext(member.getId(), member.getUsername(), member.getPassword(), Collections.emptyList());
+        return new MemberContext(member.getId(), member.getUsername(), member.getPassword(), Collections.emptySet());
     }
 }
