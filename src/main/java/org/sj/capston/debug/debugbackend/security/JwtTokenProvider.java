@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import javax.crypto.SecretKey;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -70,7 +71,8 @@ public class JwtTokenProvider {
         Collection<? extends GrantedAuthority> authorities = StringUtils.hasText(authoritiesToken) ?
                 Arrays.stream(authoritiesToken.split(","))
                         .map(SimpleGrantedAuthority::new)
-                        .collect(Collectors.toList()) : null;
+                        .collect(Collectors.toList())
+                : Collections.emptySet();
 
         long memberId = Long.parseLong(claims.get(MEMBER_ID_KEY).toString());
 

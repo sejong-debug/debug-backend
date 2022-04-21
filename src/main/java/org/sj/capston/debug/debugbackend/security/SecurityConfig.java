@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), jwtTokenProvider))
+                .addFilterAfter(jwtAuthenticationCheckFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
                 .mvcMatchers("/", "/join").permitAll()
                 .anyRequest().authenticated();
@@ -46,6 +46,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 jwtTokenProvider, objectMapper);
         jwtAuthenticationFilter.setAuthenticationManager(authenticationManagerBean());
         return jwtAuthenticationFilter;
+    }
+
+    @Bean
+    public JwtAuthenticationCheckFilter jwtAuthenticationCheckFilter() {
+        JwtAuthenticationCheckFilter jwtAuthenticationCheckFilter = new JwtAuthenticationCheckFilter(jwtTokenProvider);
+        return jwtAuthenticationCheckFilter;
     }
 
     @Bean
