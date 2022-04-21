@@ -8,9 +8,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
 @RequiredArgsConstructor
-public class PrincipalService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 
@@ -18,6 +20,6 @@ public class PrincipalService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 username: " + username));
-        return new PrincipalDetails(member.getUsername(), member.getPassword(), member.getId());
+        return new MemberContext(member.getId(), member.getUsername(), member.getPassword(), Collections.emptyList());
     }
 }
