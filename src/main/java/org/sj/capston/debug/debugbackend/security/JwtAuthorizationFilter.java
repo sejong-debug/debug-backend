@@ -1,4 +1,4 @@
-package org.sj.capston.debug.debugbackend.auth;
+package org.sj.capston.debug.debugbackend.security;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;

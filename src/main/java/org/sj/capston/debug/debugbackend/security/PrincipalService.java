@@ -1,4 +1,4 @@
-package org.sj.capston.debug.debugbackend.auth;
+package org.sj.capston.debug.debugbackend.security;
 
 import lombok.RequiredArgsConstructor;
 import org.sj.capston.debug.debugbackend.entity.Member;
