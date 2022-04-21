@@ -2,7 +2,6 @@ package org.sj.capston.debug.debugbackend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.sj.capston.debug.debugbackend.common.BaseControllerTest;
 import org.sj.capston.debug.debugbackend.common.RestDocsConfig;
 import org.sj.capston.debug.debugbackend.dto.JoinDto;
 import org.sj.capston.debug.debugbackend.dto.LoginDto;
@@ -55,7 +54,7 @@ class IndexControllerTest {
     void index() throws Exception {
         mockMvc.perform(get("/"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
