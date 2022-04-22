@@ -28,7 +28,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     private final ObjectMapper objectMapper;
 
-    protected JwtAuthenticationFilter(
+    public JwtAuthenticationFilter(
             JwtTokenProvider jwtTokenProvider, ObjectMapper objectMapper) {
         super(DEFAULT_ANT_PATH_REQUEST_MATCHER);
         this.jwtTokenProvider = jwtTokenProvider;
