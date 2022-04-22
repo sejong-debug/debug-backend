@@ -24,14 +24,10 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
     private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER = new AntPathRequestMatcher(
             "/login", "POST");
 
-    private final JwtTokenProvider jwtTokenProvider;
-
     private final ObjectMapper objectMapper;
 
-    public JwtAuthenticationFilter(
-            JwtTokenProvider jwtTokenProvider, ObjectMapper objectMapper) {
+    public JwtAuthenticationFilter(ObjectMapper objectMapper) {
         super(DEFAULT_ANT_PATH_REQUEST_MATCHER);
-        this.jwtTokenProvider = jwtTokenProvider;
         this.objectMapper = objectMapper;
     }
 
@@ -49,8 +45,6 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
     protected void successfulAuthentication(
             HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
-        String token = jwtTokenProvider.createToken(authResult);
-        JwtResponseDto jwtResponseDto = new JwtResponseDto(token);
-        response.getWriter().write(objectMapper.writeValueAsString(jwtResponseDto));
+        getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
 }
