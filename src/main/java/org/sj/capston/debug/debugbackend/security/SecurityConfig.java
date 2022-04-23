@@ -10,14 +10,12 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -36,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
@@ -43,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(jwtAuthenticationCheckFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests()
                 .mvcMatchers("/", "/join").permitAll()
+                .antMatchers("/docs/**").permitAll()
                 .anyRequest().authenticated();
     }
 
