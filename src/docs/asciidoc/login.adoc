@@ -1,4 +1,5 @@
-= Sejong Debug API Docs
+= Login
+조영래;
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -8,5 +9,7 @@
 :operation-curl-request-title: Example request
 :operation-http-response-title: Example response
 
-.API
-- xref:login.adoc[Login]
+[[login-request]]
+== Login 요청
+
+operation::login[snippets='request-fields,http-request,response-fields,http-response']
