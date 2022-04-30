@@ -1,9 +1,8 @@
 package org.sj.capston.debug.debugbackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capston.debug.debugbackend.auth.PrincipalDetails;
 import org.sj.capston.debug.debugbackend.dto.JoinDto;
-import org.sj.capston.debug.debugbackend.entity.CropType;
+import org.sj.capston.debug.debugbackend.security.MemberContext;
 import org.sj.capston.debug.debugbackend.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -33,7 +30,7 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<Void> index(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ResponseEntity<Void> index(@AuthenticationPrincipal MemberContext principalDetails) {
         return ResponseEntity.noContent().build();
     }
 }

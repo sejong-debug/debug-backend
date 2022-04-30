@@ -1,10 +1,10 @@
 package org.sj.capston.debug.debugbackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capston.debug.debugbackend.auth.PrincipalDetails;
 import org.sj.capston.debug.debugbackend.dto.ProjectCreationDto;
 import org.sj.capston.debug.debugbackend.dto.ProjectDto;
 import org.sj.capston.debug.debugbackend.entity.CropType;
+import org.sj.capston.debug.debugbackend.security.MemberContext;
 import org.sj.capston.debug.debugbackend.service.ProjectService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -33,17 +33,17 @@ public class ProjectController {
 
     @GetMapping
     public ResponseEntity<Slice<ProjectDto>> queryProjects(
-            Pageable pageable, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+            Pageable pageable, @AuthenticationPrincipal MemberContext MemberContext) {
         return ResponseEntity
-                .ok(projectService.getProjectSlice(pageable, principalDetails.getMemberId()));
+                .ok(projectService.getProjectSlice(pageable, MemberContext.getMemberId()));
     }
 
     @PostMapping
     public ResponseEntity<Void> createProject(
             @Validated @RequestBody ProjectCreationDto creationDto,
-            @AuthenticationPrincipal PrincipalDetails principalDetails) {
+            @AuthenticationPrincipal MemberContext MemberContext) {
 
-        long memberId = principalDetails.getMemberId();
+        long memberId = MemberContext.getMemberId();
         long projectId = projectService.createProject(creationDto, memberId);
         return ResponseEntity
                 .created(linkTo(ProjectController.class).slash(projectId).toUri())
