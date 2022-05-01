@@ -1,7 +1,7 @@
-package org.sj.capston.debug.debugbackend.controller;
+package org.sj.capstone.debug.debugbackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capston.debug.debugbackend.service.BoardImageService;
+import org.sj.capstone.debug.debugbackend.service.BoardImageService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
-package org.sj.capston.debug.debugbackend.dto;
+package org.sj.capstone.debug.debugbackend.dto;
 
 import lombok.Data;
-import org.sj.capston.debug.debugbackend.entity.CropType;
+import org.sj.capstone.debug.debugbackend.entity.CropType;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

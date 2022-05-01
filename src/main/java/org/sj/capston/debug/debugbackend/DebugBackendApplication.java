@@ -1,4 +1,4 @@
-package org.sj.capston.debug.debugbackend;
+package org.sj.capstone.debug.debugbackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

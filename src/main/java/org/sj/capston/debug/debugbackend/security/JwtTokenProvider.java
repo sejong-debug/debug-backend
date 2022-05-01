@@ -1,4 +1,4 @@
-package org.sj.capston.debug.debugbackend.security;
+package org.sj.capstone.debug.debugbackend.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

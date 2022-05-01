@@ -1,9 +1,9 @@
-package org.sj.capston.debug.debugbackend.controller;
+package org.sj.capstone.debug.debugbackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capston.debug.debugbackend.dto.BoardCreationDto;
-import org.sj.capston.debug.debugbackend.dto.BoardDto;
-import org.sj.capston.debug.debugbackend.service.BoardService;
+import org.sj.capstone.debug.debugbackend.dto.BoardCreationDto;
+import org.sj.capstone.debug.debugbackend.dto.BoardDto;
+import org.sj.capstone.debug.debugbackend.service.BoardService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;

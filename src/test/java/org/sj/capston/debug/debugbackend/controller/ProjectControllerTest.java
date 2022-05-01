@@ -1,15 +1,15 @@
-package org.sj.capston.debug.debugbackend.controller;
+package org.sj.capstone.debug.debugbackend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.sj.capston.debug.debugbackend.security.JwtTokenProvider;
-import org.sj.capston.debug.debugbackend.security.TokenDto;
-import org.sj.capston.debug.debugbackend.common.RestDocsConfig;
-import org.sj.capston.debug.debugbackend.dto.JoinDto;
-import org.sj.capston.debug.debugbackend.dto.LoginDto;
-import org.sj.capston.debug.debugbackend.dto.ProjectCreationDto;
-import org.sj.capston.debug.debugbackend.entity.CropType;
-import org.sj.capston.debug.debugbackend.service.MemberService;
+import org.sj.capstone.debug.debugbackend.security.JwtTokenProvider;
+import org.sj.capstone.debug.debugbackend.security.JwtResponseDto;
+import org.sj.capstone.debug.debugbackend.common.RestDocsConfig;
+import org.sj.capstone.debug.debugbackend.dto.JoinDto;
+import org.sj.capstone.debug.debugbackend.dto.LoginDto;
+import org.sj.capstone.debug.debugbackend.dto.ProjectCreationDto;
+import org.sj.capstone.debug.debugbackend.entity.CropType;
+import org.sj.capstone.debug.debugbackend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -95,6 +95,6 @@ class ProjectControllerTest {
                 .andReturn()
                 .getResponse()
                 .getContentAsString(),
-                TokenDto.class).getToken();
+                JwtResponseDto.class).getAccessToken();
     }
 }

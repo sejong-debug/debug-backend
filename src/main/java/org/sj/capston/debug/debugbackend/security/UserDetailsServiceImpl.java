@@ -1,8 +1,8 @@
-package org.sj.capston.debug.debugbackend.security;
+package org.sj.capstone.debug.debugbackend.security;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capston.debug.debugbackend.entity.Member;
-import org.sj.capston.debug.debugbackend.repository.MemberRepository;
+import org.sj.capstone.debug.debugbackend.entity.Member;
+import org.sj.capstone.debug.debugbackend.repository.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

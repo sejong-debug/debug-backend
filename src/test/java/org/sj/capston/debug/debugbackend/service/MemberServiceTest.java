@@ -2,8 +2,8 @@ package org.sj.capston.debug.debugbackend.service;
 
 import org.junit.jupiter.api.Test;
 import org.sj.capston.debug.debugbackend.dto.JoinDto;
-import org.sj.capston.debug.debugbackend.entity.Member;
 import org.sj.capston.debug.debugbackend.repository.MemberRepository;
+import org.sj.capston.debug.debugbackend.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;

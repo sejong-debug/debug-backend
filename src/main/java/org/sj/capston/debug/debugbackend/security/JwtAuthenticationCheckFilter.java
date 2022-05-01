@@ -1,4 +1,4 @@
-package org.sj.capston.debug.debugbackend.security;
+package org.sj.capstone.debug.debugbackend.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

@@ -1,9 +1,7 @@
-package org.sj.capston.debug.debugbackend.repository;
+package org.sj.capstone.debug.debugbackend.repository;
 
 import org.junit.jupiter.api.Test;
-import org.sj.capston.debug.debugbackend.dto.ProjectDto;
-import org.sj.capston.debug.debugbackend.entity.Project;
-import org.sj.capston.debug.debugbackend.service.ProjectService;
+import org.sj.capstone.debug.debugbackend.entity.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
