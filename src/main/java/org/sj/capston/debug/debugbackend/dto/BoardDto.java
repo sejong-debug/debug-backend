@@ -1,9 +1,9 @@
-package org.sj.capstone.debug.debugbackend.dto;
+package org.sj.capston.debug.debugbackend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.sj.capstone.debug.debugbackend.entity.Board;
+import org.sj.capston.debug.debugbackend.entity.Board;
 
 @Data
 @Builder

@@ -1,10 +1,10 @@
-package org.sj.capstone.debug.debugbackend.dto;
+package org.sj.capston.debug.debugbackend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.sj.capstone.debug.debugbackend.entity.CropType;
-import org.sj.capstone.debug.debugbackend.entity.Project;
+import org.sj.capston.debug.debugbackend.entity.CropType;
+import org.sj.capston.debug.debugbackend.entity.Project;
 
 import java.time.LocalDate;
 
