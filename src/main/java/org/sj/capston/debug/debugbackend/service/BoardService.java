@@ -1,15 +1,15 @@
-package org.sj.capstone.debug.debugbackend.service;
+package org.sj.capston.debug.debugbackend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capstone.debug.debugbackend.dto.BoardCreationDto;
-import org.sj.capstone.debug.debugbackend.dto.BoardDto;
-import org.sj.capstone.debug.debugbackend.entity.Board;
-import org.sj.capstone.debug.debugbackend.entity.BoardImage;
-import org.sj.capstone.debug.debugbackend.entity.Project;
-import org.sj.capstone.debug.debugbackend.repository.BoardImageRepository;
-import org.sj.capstone.debug.debugbackend.repository.BoardRepository;
-import org.sj.capstone.debug.debugbackend.repository.ProjectRepository;
-import org.sj.capstone.debug.debugbackend.util.ImageStore;
+import org.sj.capston.debug.debugbackend.dto.BoardCreationDto;
+import org.sj.capston.debug.debugbackend.dto.BoardDto;
+import org.sj.capston.debug.debugbackend.repository.BoardImageRepository;
+import org.sj.capston.debug.debugbackend.repository.BoardRepository;
+import org.sj.capston.debug.debugbackend.repository.ProjectRepository;
+import org.sj.capston.debug.debugbackend.util.ImageStore;
+import org.sj.capston.debug.debugbackend.entity.Board;
+import org.sj.capston.debug.debugbackend.entity.BoardImage;
+import org.sj.capston.debug.debugbackend.entity.Project;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;

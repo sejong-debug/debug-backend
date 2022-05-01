@@ -1,11 +1,11 @@
-package org.sj.capstone.debug.debugbackend.controller;
+package org.sj.capston.debug.debugbackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capstone.debug.debugbackend.security.MemberContext;
-import org.sj.capstone.debug.debugbackend.dto.ProjectCreationDto;
-import org.sj.capstone.debug.debugbackend.dto.ProjectDto;
-import org.sj.capstone.debug.debugbackend.entity.CropType;
-import org.sj.capstone.debug.debugbackend.service.ProjectService;
+import org.sj.capston.debug.debugbackend.dto.ProjectCreationDto;
+import org.sj.capston.debug.debugbackend.dto.ProjectDto;
+import org.sj.capston.debug.debugbackend.security.MemberContext;
+import org.sj.capston.debug.debugbackend.service.ProjectService;
+import org.sj.capston.debug.debugbackend.entity.CropType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;

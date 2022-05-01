@@ -1,9 +1,9 @@
-package org.sj.capstone.debug.debugbackend.service;
+package org.sj.capston.debug.debugbackend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capstone.debug.debugbackend.entity.BoardImage;
-import org.sj.capstone.debug.debugbackend.repository.BoardImageRepository;
-import org.sj.capstone.debug.debugbackend.util.ImageStore;
+import org.sj.capston.debug.debugbackend.repository.BoardImageRepository;
+import org.sj.capston.debug.debugbackend.util.ImageStore;
+import org.sj.capston.debug.debugbackend.entity.BoardImage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

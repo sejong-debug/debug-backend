@@ -1,4 +1,4 @@
-package org.sj.capstone.debug.debugbackend.entity;
+package org.sj.capston.debug.debugbackend.entity;
 
 public enum CropType {
     REDBEAN,

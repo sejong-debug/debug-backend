@@ -1,9 +1,9 @@
-package org.sj.capstone.debug.debugbackend.controller;
+package org.sj.capston.debug.debugbackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capstone.debug.debugbackend.security.MemberContext;
-import org.sj.capstone.debug.debugbackend.dto.JoinDto;
-import org.sj.capstone.debug.debugbackend.service.MemberService;
+import org.sj.capston.debug.debugbackend.dto.JoinDto;
+import org.sj.capston.debug.debugbackend.security.MemberContext;
+import org.sj.capston.debug.debugbackend.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;

@@ -1,6 +1,6 @@
-package org.sj.capstone.debug.debugbackend.repository;
+package org.sj.capston.debug.debugbackend.repository;
 
-import org.sj.capstone.debug.debugbackend.entity.Member;
+import org.sj.capston.debug.debugbackend.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
