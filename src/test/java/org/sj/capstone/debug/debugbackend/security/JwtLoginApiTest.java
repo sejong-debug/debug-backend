@@ -63,7 +63,9 @@ class JwtLoginApiTest {
                                 fieldWithPath("password").description("로그인 비밀번호")
                         ),
                         responseFields(
-                                fieldWithPath("accessToken").description("JWT 로그인 토큰"))
+                                fieldWithPath("success").description("성공 여부"),
+                                fieldWithPath("data.accessToken").description("JWT 로그인 토큰")
+                        )
                 ));
     }
 
