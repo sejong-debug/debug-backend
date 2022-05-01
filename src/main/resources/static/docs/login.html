@@ -526,7 +526,12 @@ Host: localhost:8080
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>accessToken</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>success</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">성공 여부</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.accessToken</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">JWT 로그인 토큰</p></td>
 </tr>
@@ -548,10 +553,13 @@ Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
-Content-Length: 218
+Content-Length: 257
 
 {
-  "accessToken" : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0LXVzZXJuYW1lIiwiYXV0aCI6IiIsIm1lbWJlcl9pZCI6NCwiZXhwIjoxNjUwODE5ODU2fQ.S-cGehKnOoyyuwVj6RTQbPXqZyj89dfcXXEdysrfHqVMn7Fp-2DflakUo2ZPS3t79lH3lZAH7xzp4dbcB-PYiA"
+  "success" : true,
+  "data" : {
+    "accessToken" : "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0LXVzZXJuYW1lIiwiYXV0aCI6IiIsIm1lbWJlcl9pZCI6NCwiZXhwIjoxNjUxNTA0MTE4fQ.Rjx_0VMAfNuSoX5kt_Ex6ujq7ZFUUg-qCfxKajyI5AWMixIUkgzXbsCWQWDXvrZyJOZEqaWi2uP7HcDQzQPLhg"
+  }
 }</code></pre>
 </div>
 </div>

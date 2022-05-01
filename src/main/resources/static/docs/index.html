@@ -437,11 +437,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="book">
+<body class="book toc2 toc-left">
 <div id="header">
 <h1>Sejong Debug API Docs</h1>
 <div class="details">
 <span id="revnumber">version 0.0.1-SNAPSHOT</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_api_result">API Result</a></li>
+</ul>
 </div>
 </div>
 <div id="content">
@@ -457,11 +463,37 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_api_result"><a class="link" href="#_api_result">API Result</a></h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">object {
+    boolean success;
+    object {
+        // 응답 데이터
+    }* data?;
+    object {
+        integer code?;
+        string message?;
+        array [
+            object {
+                string field?;
+                string value?;
+                string reason?;
+            }*;
+        ] errors?;
+    }* error?;
+}*;</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2022-04-23 21:52:09 +0900
+Last updated 2022-05-01 17:55:48 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
