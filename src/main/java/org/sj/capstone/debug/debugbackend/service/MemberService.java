@@ -33,4 +33,8 @@ public class MemberService {
                 .build();
         return memberRepository.save(member).getId();
     }
+
+    public boolean checkDuplicateUsername(String username) {
+        return memberRepository.existsByUsername(username);
+    }
 }
