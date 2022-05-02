@@ -3,7 +3,7 @@ package org.sj.capstone.debug.debugbackend.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.sj.capstone.debug.debugbackend.common.RestDocsConfig;
-import org.sj.capstone.debug.debugbackend.dto.JoinDto;
+import org.sj.capstone.debug.debugbackend.dto.member.MemberJoinDto;
 import org.sj.capstone.debug.debugbackend.entity.Member;
 import org.sj.capstone.debug.debugbackend.repository.MemberRepository;
 import org.sj.capstone.debug.debugbackend.service.MemberService;
@@ -62,15 +62,15 @@ class IndexControllerTest {
         String password = "test-password!";
         String name = "test-name";
 
-        JoinDto joinDto = new JoinDto();
-        joinDto.setUsername(username);
-        joinDto.setPassword(password);
-        joinDto.setName(name);
+        MemberJoinDto memberJoinDto = new MemberJoinDto();
+        memberJoinDto.setUsername(username);
+        memberJoinDto.setPassword(password);
+        memberJoinDto.setName(name);
 
         mockMvc.perform(post("/join")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaTypes.HAL_JSON)
-                        .content(objectMapper.writeValueAsString(joinDto)))
+                        .content(objectMapper.writeValueAsString(memberJoinDto)))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(header().exists(HttpHeaders.LOCATION))

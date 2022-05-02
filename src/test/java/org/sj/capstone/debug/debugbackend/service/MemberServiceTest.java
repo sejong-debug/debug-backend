@@ -1,7 +1,7 @@
 package org.sj.capstone.debug.debugbackend.service;
 
 import org.junit.jupiter.api.Test;
-import org.sj.capstone.debug.debugbackend.dto.JoinDto;
+import org.sj.capstone.debug.debugbackend.dto.member.MemberJoinDto;
 import org.sj.capstone.debug.debugbackend.repository.MemberRepository;
 import org.sj.capstone.debug.debugbackend.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +26,12 @@ class MemberServiceTest {
         String password = "test-password!";
         String name = "test-name";
 
-        JoinDto joinDto = new JoinDto();
-        joinDto.setUsername(username);
-        joinDto.setPassword(password);
-        joinDto.setName(name);
+        MemberJoinDto memberJoinDto = new MemberJoinDto();
+        memberJoinDto.setUsername(username);
+        memberJoinDto.setPassword(password);
+        memberJoinDto.setName(name);
 
-        long joinedMemberId = memberService.join(joinDto);
+        long joinedMemberId = memberService.join(memberJoinDto);
         Member joinedMember = memberRepository.findById(joinedMemberId).orElseThrow(
                 () -> new RuntimeException("회원가입 실패")
         );

@@ -1,7 +1,7 @@
 package org.sj.capstone.debug.debugbackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capstone.debug.debugbackend.dto.JoinDto;
+import org.sj.capstone.debug.debugbackend.dto.member.MemberJoinDto;
 import org.sj.capstone.debug.debugbackend.security.MemberContext;
 import org.sj.capstone.debug.debugbackend.service.MemberService;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,8 @@ public class IndexController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public ResponseEntity<Void> join(@Validated @RequestBody JoinDto joinDto) {
-        memberService.join(joinDto);
+    public ResponseEntity<Void> join(@Validated @RequestBody MemberJoinDto memberJoinDto) {
+        memberService.join(memberJoinDto);
         return ResponseEntity
                 .created(linkTo(IndexController.class).toUri())
                 .build();
