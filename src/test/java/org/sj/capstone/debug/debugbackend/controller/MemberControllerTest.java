@@ -16,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -60,7 +63,30 @@ class MemberControllerTest {
                                 fieldWithPath("name").description("회원가입 이름")
                         ),
                         responseFields(
-                                fieldWithPath("success").description("성공 여부")
+                                fieldWithPath("success").description("요청 성공 여부")
+                        )
+                ));
+    }
+
+    @Test
+    void 아이디_중복체크() throws Exception {
+        String username = "test-username";
+
+        mockMvc.perform(get("/members/exist/username")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .param("username", username))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("success").value(true))
+                .andExpect(jsonPath("data").value(false))
+                .andDo(document("check-duplication-username",
+                        requestParameters(
+                                parameterWithName("username").description("중복 확인을 하려는 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("success").description("요청 성공 여부"),
+                                fieldWithPath("data").description("중복 여부")
                         )
                 ));
     }
