@@ -1,4 +1,4 @@
-package org.sj.capstone.debug.debugbackend.security;
+package org.sj.capstone.debug.debugbackend.dto.security;
 
 import lombok.Data;
 

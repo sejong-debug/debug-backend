@@ -1,7 +1,7 @@
 package org.sj.capstone.debug.debugbackend.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.sj.capstone.debug.debugbackend.dto.LoginDto;
+import org.sj.capstone.debug.debugbackend.dto.security.LoginDto;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

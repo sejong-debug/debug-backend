@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.sj.capstone.debug.debugbackend.common.RestDocsConfig;
 import org.sj.capstone.debug.debugbackend.dto.JoinDto;
-import org.sj.capstone.debug.debugbackend.dto.LoginDto;
+import org.sj.capstone.debug.debugbackend.dto.security.LoginDto;
 import org.sj.capstone.debug.debugbackend.repository.MemberRepository;
 import org.sj.capstone.debug.debugbackend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;

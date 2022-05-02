@@ -3,6 +3,7 @@ package org.sj.capstone.debug.debugbackend.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.sj.capstone.debug.debugbackend.dto.common.ApiResult;
+import org.sj.capstone.debug.debugbackend.dto.security.JwtResponseDto;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
