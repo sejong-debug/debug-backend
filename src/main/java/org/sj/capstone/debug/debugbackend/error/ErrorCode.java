@@ -15,7 +15,7 @@ public enum ErrorCode {
     RESOURCE_NOT_FOUND(COMMON, SC_BAD_REQUEST, " Resource is Not Found"),
 
     LOGIN_INPUT_INVALID(MEMBER, SC_BAD_REQUEST, "Login input is invalid"),
-    USERNAME_DUPLICATION(MEMBER, SC_BAD_REQUEST, "Username is Duplication"),
+    USERNAME_DUPLICATION(MEMBER, SC_CONFLICT, "Username is Duplication"),
     ;
 
     private final Domain domain;

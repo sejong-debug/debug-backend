@@ -2,6 +2,8 @@ package org.sj.capstone.debug.debugbackend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.sj.capstone.debug.debugbackend.dto.member.MemberJoinDto;
+import org.sj.capstone.debug.debugbackend.error.ErrorCode;
+import org.sj.capstone.debug.debugbackend.error.exception.BusinessException;
 import org.sj.capstone.debug.debugbackend.repository.MemberRepository;
 import org.sj.capstone.debug.debugbackend.entity.Member;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,12 +21,16 @@ public class MemberService {
 
     @Transactional
     public long join(MemberJoinDto memberJoinDto) {
+        if (memberRepository.existsByUsername(memberJoinDto.getUsername())) {
+            throw new BusinessException(ErrorCode.USERNAME_DUPLICATION,
+                    ErrorCode.USERNAME_DUPLICATION.getMessage() +
+                    " >> inputted username=" + memberJoinDto.getUsername());
+        }
         Member member = Member.builder()
                 .username(memberJoinDto.getUsername())
                 .password(passwordEncoder.encode(memberJoinDto.getPassword()))
                 .name(memberJoinDto.getName())
                 .build();
-        Member save = memberRepository.save(member);
-        return save.getId();
+        return memberRepository.save(member).getId();
     }
 }
