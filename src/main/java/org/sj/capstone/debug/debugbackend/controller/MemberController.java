@@ -2,6 +2,7 @@ package org.sj.capstone.debug.debugbackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.sj.capstone.debug.debugbackend.dto.common.ApiResult;
+import org.sj.capstone.debug.debugbackend.dto.member.MemberDto;
 import org.sj.capstone.debug.debugbackend.dto.member.MemberJoinDto;
 import org.sj.capstone.debug.debugbackend.service.MemberService;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,14 @@ public class MemberController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(ApiResult.<Void>builder().build());
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<ApiResult<MemberDto>> getMember(@PathVariable String username) {
+        ApiResult<MemberDto> result = ApiResult.<MemberDto>builder()
+                .data(memberService.getByUsername(username))
+                .build();
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/exist/username")
