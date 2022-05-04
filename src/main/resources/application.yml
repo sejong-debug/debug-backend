@@ -19,8 +19,10 @@ spring:
     multipart:
       max-file-size: 10MB
 
-logging.level.*: debug
-logging.level.org.hibernate.type: trace
+logging.level:
+  org.hibernate:
+    SQL: debug
+    type: trace
 
 my-app:
   image:
