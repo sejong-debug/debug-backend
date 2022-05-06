@@ -17,11 +17,12 @@ public class BoardImage {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "origin_name", nullable = false)
     private String originName;
 
-    @Column(nullable = false)
+    @Column(name = "stored_name", nullable = false)
     private String storedName;
 }

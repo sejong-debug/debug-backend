@@ -21,17 +21,18 @@ public class Project extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(nullable = false, length = 45)
+    @Column(name = "name", nullable = false, length = 45)
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 25)
+    @Column(name = "crop_type", nullable = false, length = 25)
     private CropType cropType;
 
     private LocalDate startDate;

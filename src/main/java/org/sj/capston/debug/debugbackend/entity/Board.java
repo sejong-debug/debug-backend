@@ -16,13 +16,14 @@ public class Board extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @Column(nullable = false)
+    @Column(name = "content", nullable = false)
     private String content;
 
     @OneToOne(fetch = LAZY)

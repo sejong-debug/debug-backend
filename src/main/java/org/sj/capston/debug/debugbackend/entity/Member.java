@@ -16,14 +16,15 @@ public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(unique = true, nullable = false, length = 45)
+    @Column(name = "username", unique = true, nullable = false, length = 45)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(nullable = false, length = 45)
+    @Column(name = "name", nullable = false, length = 45)
     private String name;
 }
