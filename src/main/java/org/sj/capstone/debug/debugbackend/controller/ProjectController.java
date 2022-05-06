@@ -1,6 +1,7 @@
 package org.sj.capstone.debug.debugbackend.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.sj.capstone.debug.debugbackend.dto.common.ApiResult;
 import org.sj.capstone.debug.debugbackend.dto.project.ProjectCreationDto;
 import org.sj.capstone.debug.debugbackend.dto.project.ProjectDto;
 import org.sj.capstone.debug.debugbackend.security.MemberContext;
@@ -52,10 +53,13 @@ public class ProjectController {
 
 
     @GetMapping("/crop-types")
-    public ResponseEntity<List<String>> getAllCropTypes() {
-        List<String> result = Arrays.stream(CropType.values())
+    public ResponseEntity<ApiResult<List<String>>> getAllCropTypes() {
+        List<String> cropTypes = Arrays.stream(CropType.values())
                 .map(Enum::name)
                 .collect(Collectors.toList());
+        ApiResult<List<String>> result = ApiResult.<List<String>>builder()
+                .data(cropTypes)
+                .build();
         return ResponseEntity.ok(result);
     }
 }
