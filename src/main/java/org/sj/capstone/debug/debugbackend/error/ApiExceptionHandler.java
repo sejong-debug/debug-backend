@@ -2,6 +2,7 @@ package org.sj.capstone.debug.debugbackend.error;
 
 import lombok.extern.slf4j.Slf4j;
 import org.sj.capstone.debug.debugbackend.dto.common.ApiResult;
+import org.sj.capstone.debug.debugbackend.dto.error.ErrorResponseDto;
 import org.sj.capstone.debug.debugbackend.error.exception.BusinessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

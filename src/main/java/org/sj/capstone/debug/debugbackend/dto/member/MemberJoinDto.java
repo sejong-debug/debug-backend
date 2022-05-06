@@ -1,4 +1,4 @@
-package org.sj.capstone.debug.debugbackend.dto;
+package org.sj.capstone.debug.debugbackend.dto.member;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Data
-public class JoinDto {
+public class MemberJoinDto {
 
     @NotEmpty
     @Size(max = 45)

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.sj.capstone.debug.debugbackend.error.ErrorResponseDto;
+import org.sj.capstone.debug.debugbackend.dto.error.ErrorResponseDto;
 
 @Data
 @Builder

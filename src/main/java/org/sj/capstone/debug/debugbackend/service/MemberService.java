@@ -1,7 +1,10 @@
 package org.sj.capstone.debug.debugbackend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capstone.debug.debugbackend.dto.JoinDto;
+import org.sj.capstone.debug.debugbackend.dto.member.MemberDto;
+import org.sj.capstone.debug.debugbackend.dto.member.MemberJoinDto;
+import org.sj.capstone.debug.debugbackend.error.ErrorCode;
+import org.sj.capstone.debug.debugbackend.error.exception.BusinessException;
 import org.sj.capstone.debug.debugbackend.repository.MemberRepository;
 import org.sj.capstone.debug.debugbackend.entity.Member;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,13 +21,30 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public long join(JoinDto joinDto) {
+    public long join(MemberJoinDto memberJoinDto) {
+        if (memberRepository.existsByUsername(memberJoinDto.getUsername())) {
+            throw new BusinessException(ErrorCode.USERNAME_DUPLICATION,
+                    ">> inputted username=" + memberJoinDto.getUsername());
+        }
         Member member = Member.builder()
-                .username(joinDto.getUsername())
-                .password(passwordEncoder.encode(joinDto.getPassword()))
-                .name(joinDto.getName())
+                .username(memberJoinDto.getUsername())
+                .password(passwordEncoder.encode(memberJoinDto.getPassword()))
+                .name(memberJoinDto.getName())
                 .build();
-        Member save = memberRepository.save(member);
-        return save.getId();
+        return memberRepository.save(member).getId();
+    }
+
+    public boolean checkDuplicateUsername(String username) {
+        return memberRepository.existsByUsername(username);
+    }
+
+    public MemberDto getByUsername(String username) {
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND,
+                        ">> username=" + username));
+        MemberDto memberDto = new MemberDto();
+        memberDto.setUsername(member.getUsername());
+        memberDto.setName(member.getName());
+        return memberDto;
     }
 }

@@ -1,6 +1,7 @@
-package org.sj.capstone.debug.debugbackend.error;
+package org.sj.capstone.debug.debugbackend.dto.error;
 
 import lombok.Data;
+import org.sj.capstone.debug.debugbackend.error.ErrorCode;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 

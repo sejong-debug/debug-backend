@@ -3,11 +3,11 @@ package org.sj.capstone.debug.debugbackend.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.sj.capstone.debug.debugbackend.common.RestDocsConfig;
-import org.sj.capstone.debug.debugbackend.dto.JoinDto;
+import org.sj.capstone.debug.debugbackend.dto.member.MemberJoinDto;
 import org.sj.capstone.debug.debugbackend.dto.ProjectCreationDto;
 import org.sj.capstone.debug.debugbackend.security.JwtTokenProvider;
-import org.sj.capstone.debug.debugbackend.security.JwtResponseDto;
-import org.sj.capstone.debug.debugbackend.dto.LoginDto;
+import org.sj.capstone.debug.debugbackend.dto.security.JwtResponseDto;
+import org.sj.capstone.debug.debugbackend.dto.security.LoginDto;
 import org.sj.capstone.debug.debugbackend.entity.CropType;
 import org.sj.capstone.debug.debugbackend.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,11 +79,11 @@ class ProjectControllerTest {
         String password = "test-password!";
         String name = "test-name";
 
-        JoinDto joinDto = new JoinDto();
-        joinDto.setUsername(username);
-        joinDto.setPassword(password);
-        joinDto.setName(name);
-        memberService.join(joinDto);
+        MemberJoinDto memberJoinDto = new MemberJoinDto();
+        memberJoinDto.setUsername(username);
+        memberJoinDto.setPassword(password);
+        memberJoinDto.setName(name);
+        memberService.join(memberJoinDto);
 
         LoginDto loginDto = new LoginDto();
         loginDto.setUsername(username);
