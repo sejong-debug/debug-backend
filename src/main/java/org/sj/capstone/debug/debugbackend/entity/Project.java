@@ -35,8 +35,10 @@ public class Project extends BaseTimeEntity {
     @Column(name = "crop_type", nullable = false, length = 25)
     private CropType cropType;
 
+    @Column(name = "start_date")
     private LocalDate startDate;
 
+    @Column(name = "end_date")
     private LocalDate endDate;
 
     @Column(name = "is_completed", nullable = false)
