@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost/sj_debug
     username: root
-    password: sj_debug
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -19,8 +19,10 @@ spring:
     multipart:
       max-file-size: 10MB
 
-logging.level.*: debug
-logging.level.org.hibernate.type: trace
+logging.level:
+  org.hibernate:
+    SQL: debug
+    type: trace
 
 my-app:
   image:

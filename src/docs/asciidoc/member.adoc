@@ -1,0 +1,25 @@
+= Member
+조영래;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
+
+[[join]]
+== 회원가입
+
+operation::join[snippets='request-fields,http-request,response-fields,http-response']
+
+[[check-duplication-username]]
+== 아이디 중복 확인
+
+operation::check-duplication-username[snippets='request-parameters,http-request,response-fields,http-response']
+
+[[get-member]]
+== 회원 조회
+
+operation::get-member[snippets='path-parameters,http-request,response-fields,http-response']

@@ -10,3 +10,26 @@
 
 .API
 - xref:login.adoc[Login]
+
+== API Result
+
+[source]
+----
+object {
+    boolean success;
+    object {
+        // 응답 데이터
+    }* data?;
+    object {
+        integer code?;
+        string message?;
+        array [
+            object {
+                string field?;
+                string value?;
+                string reason?;
+            }*;
+        ] errors?;
+    }* error?;
+}*;
+----
