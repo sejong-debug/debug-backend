@@ -1,8 +1,8 @@
 package org.sj.capstone.debug.debugbackend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capstone.debug.debugbackend.dto.ProjectCreationDto;
-import org.sj.capstone.debug.debugbackend.dto.ProjectDto;
+import org.sj.capstone.debug.debugbackend.dto.project.ProjectCreationDto;
+import org.sj.capstone.debug.debugbackend.dto.project.ProjectDto;
 import org.sj.capstone.debug.debugbackend.entity.Member;
 import org.sj.capstone.debug.debugbackend.entity.Project;
 import org.sj.capstone.debug.debugbackend.repository.MemberRepository;

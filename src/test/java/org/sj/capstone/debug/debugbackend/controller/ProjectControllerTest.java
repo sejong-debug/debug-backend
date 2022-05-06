@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.sj.capstone.debug.debugbackend.common.RestDocsConfig;
 import org.sj.capstone.debug.debugbackend.dto.member.MemberJoinDto;
-import org.sj.capstone.debug.debugbackend.dto.ProjectCreationDto;
+import org.sj.capstone.debug.debugbackend.dto.project.ProjectCreationDto;
 import org.sj.capstone.debug.debugbackend.security.JwtTokenProvider;
 import org.sj.capstone.debug.debugbackend.dto.security.JwtResponseDto;
 import org.sj.capstone.debug.debugbackend.dto.security.LoginDto;

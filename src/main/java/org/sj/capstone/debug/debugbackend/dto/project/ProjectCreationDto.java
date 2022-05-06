@@ -1,4 +1,4 @@
-package org.sj.capstone.debug.debugbackend.dto;
+package org.sj.capstone.debug.debugbackend.dto.project;
 
 import lombok.Data;
 import org.sj.capstone.debug.debugbackend.entity.CropType;

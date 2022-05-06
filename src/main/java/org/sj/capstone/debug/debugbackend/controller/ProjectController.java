@@ -1,8 +1,8 @@
 package org.sj.capstone.debug.debugbackend.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capstone.debug.debugbackend.dto.ProjectCreationDto;
-import org.sj.capstone.debug.debugbackend.dto.ProjectDto;
+import org.sj.capstone.debug.debugbackend.dto.project.ProjectCreationDto;
+import org.sj.capstone.debug.debugbackend.dto.project.ProjectDto;
 import org.sj.capstone.debug.debugbackend.security.MemberContext;
 import org.sj.capstone.debug.debugbackend.service.ProjectService;
 import org.sj.capstone.debug.debugbackend.entity.CropType;
