@@ -5,6 +5,8 @@ import org.sj.capstone.debug.debugbackend.dto.project.ProjectCreationDto;
 import org.sj.capstone.debug.debugbackend.dto.project.ProjectDto;
 import org.sj.capstone.debug.debugbackend.entity.Member;
 import org.sj.capstone.debug.debugbackend.entity.Project;
+import org.sj.capstone.debug.debugbackend.error.ErrorCode;
+import org.sj.capstone.debug.debugbackend.error.exception.BusinessException;
 import org.sj.capstone.debug.debugbackend.repository.MemberRepository;
 import org.sj.capstone.debug.debugbackend.repository.ProjectRepository;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +32,8 @@ public class ProjectService {
     @Transactional
     public long createProject(ProjectCreationDto creationDto, long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 memberId = " + memberId));
+                new BusinessException(ErrorCode.RESOURCE_NOT_FOUND,
+                        ">> memberId=" + memberId));
         Project project = Project.builder()
                 .name(creationDto.getName())
                 .member(member)

@@ -4,21 +4,23 @@ import lombok.RequiredArgsConstructor;
 import org.sj.capstone.debug.debugbackend.dto.common.ApiResult;
 import org.sj.capstone.debug.debugbackend.dto.project.ProjectCreationDto;
 import org.sj.capstone.debug.debugbackend.dto.project.ProjectDto;
+import org.sj.capstone.debug.debugbackend.entity.CropType;
+import org.sj.capstone.debug.debugbackend.security.LoginMemberId;
 import org.sj.capstone.debug.debugbackend.security.MemberContext;
 import org.sj.capstone.debug.debugbackend.service.ProjectService;
-import org.sj.capstone.debug.debugbackend.entity.CropType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RequiredArgsConstructor
 @RestController
@@ -40,15 +42,18 @@ public class ProjectController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createProject(
-            @Validated @RequestBody ProjectCreationDto creationDto,
-            @AuthenticationPrincipal MemberContext memberContext) {
+    public ResponseEntity<ApiResult<Long>> createProject(
+            @Valid @RequestBody ProjectCreationDto creationDto,
+            @LoginMemberId Long memberId) {
 
-        long memberId = memberContext.getMemberId();
         long projectId = projectService.createProject(creationDto, memberId);
-        return ResponseEntity
-                .created(linkTo(ProjectController.class).slash(projectId).toUri())
+        ApiResult<Long> result = ApiResult.<Long>builder()
+                .data(projectId)
                 .build();
+
+        return ResponseEntity
+                .created(linkTo(methodOn(ProjectController.class).getProject(projectId)).toUri())
+                .body(result);
     }
 
 
