@@ -13,3 +13,8 @@
 == 작물 종류 조회
 
 operation::get-crop-types[snippets='http-request,response-fields,http-response']
+
+[[create-project]]
+== 프로젝트 생성
+
+operation::create-project[snippets='request-fields,http-request,response-headers,response-fields,http-response']
