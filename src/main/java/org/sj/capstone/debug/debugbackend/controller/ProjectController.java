@@ -5,6 +5,8 @@ import org.sj.capstone.debug.debugbackend.dto.common.ApiResult;
 import org.sj.capstone.debug.debugbackend.dto.project.ProjectCreationDto;
 import org.sj.capstone.debug.debugbackend.dto.project.ProjectDto;
 import org.sj.capstone.debug.debugbackend.entity.CropType;
+import org.sj.capstone.debug.debugbackend.error.ErrorCode;
+import org.sj.capstone.debug.debugbackend.error.exception.BusinessException;
 import org.sj.capstone.debug.debugbackend.security.LoginMemberId;
 import org.sj.capstone.debug.debugbackend.security.MemberContext;
 import org.sj.capstone.debug.debugbackend.service.ProjectService;
@@ -30,8 +32,18 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<ProjectDto> getProject(@PathVariable long projectId){
-        return ResponseEntity.ok(projectService.getProject(projectId));
+    public ResponseEntity<ApiResult<ProjectDto>> getProject(
+            @PathVariable long projectId, @LoginMemberId Long memberId) {
+        if (!projectService.isProjectOwnedByMember(projectId, memberId)) {
+            throw new BusinessException(ErrorCode.NOT_OWNED_RESOURCE,
+                    ">> projectId=" + projectId + ", memberId=" + memberId);
+        }
+
+        ApiResult<ProjectDto> result = ApiResult.<ProjectDto>builder()
+                .data(projectService.getProject(projectId))
+                .build();
+
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping
@@ -52,7 +64,7 @@ public class ProjectController {
                 .build();
 
         return ResponseEntity
-                .created(linkTo(methodOn(ProjectController.class).getProject(projectId)).toUri())
+                .created(linkTo(methodOn(ProjectController.class).getProject(projectId, memberId)).toUri())
                 .body(result);
     }
 

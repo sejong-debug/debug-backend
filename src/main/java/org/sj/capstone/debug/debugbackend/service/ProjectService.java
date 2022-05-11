@@ -48,4 +48,8 @@ public class ProjectService {
         return projectRepository.findAllByMemberId(pageable, memberId)
                 .map(ProjectDto::of);
     }
+
+    public boolean isProjectOwnedByMember(long projectId, long memberId) {
+        return projectRepository.existsByIdAndMemberId(projectId, memberId);
+    }
 }
