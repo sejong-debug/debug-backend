@@ -18,3 +18,8 @@ operation::get-crop-types[snippets='http-request,response-fields,http-response']
 == 프로젝트 생성
 
 operation::create-project[snippets='request-fields,http-request,response-headers,response-fields,http-response']
+
+[[get-project]]
+== 프로젝트 조회
+
+operation::get-project[snippets='path-parameters,http-request,response-fields,http-response']
