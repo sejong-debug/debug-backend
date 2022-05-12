@@ -1,6 +1,5 @@
 package org.sj.capstone.debug.debugbackend.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,19 +24,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -108,8 +107,8 @@ class ProjectControllerTest {
                                 fieldWithPath("name").description("프로젝트 이름"),
                                 fieldWithPath("cropType").description("프로젝트에서 관리할 작물 종류"),
                                 fieldWithPath("startDate").description("프로젝트 시작 날짜"),
-                                fieldWithPath("endDate").description("프로젝트 종료 예상 날짜"))
-                        ,
+                                fieldWithPath("endDate").description("프로젝트 종료 예상 날짜")
+                        ),
                         responseHeaders(
                                 headerWithName(HttpHeaders.LOCATION).description("생성된 프로젝트 조회 요청")
                         ),
@@ -210,5 +209,54 @@ class ProjectControllerTest {
                                 fieldWithPath("data").description("수정된 프로젝트 아이디")
                         )
                 ));
+    }
+
+    @Test
+    @WithUserDetails
+    @DisplayName("프로젝트 리스트 슬라이스 조회")
+    void queryProject() throws Exception {
+
+        createTestSampleProjects();
+
+        mockMvc.perform(get("/projects")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .param("page", String.valueOf(0))
+                        .param("size", String.valueOf(10)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("success").value(true))
+                .andDo(document("query-projects",
+                        requestParameters(
+                                parameterWithName("page").description("요청하려는 페이지 인덱스. default=0"),
+                                parameterWithName("size").description("요청하려는 페이지 내 컨텐츠 크기. default=10, max=100")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("success").description("요청 성공 여부"),
+                                fieldWithPath("data").description("응답된 페이지"),
+                                fieldWithPath("data.content").description("응답된 페이지 내용. Project 조회 응답과 동일."),
+                                fieldWithPath("data.number").description("페이지 넘버")
+                        )
+                ));
+    }
+
+    private List<Project> createTestSampleProjects() {
+        List<Project> projects = new ArrayList<>();
+        LocalDate baseStartDate = LocalDate.of(2022, 3, 1);
+        LocalDate baseEndDate = LocalDate.of(2022, 12, 1);
+        for (int i = 0; i < 20; i++) {
+            Project project = Project.builder()
+                    .member(TestDataConfig.member)
+                    .name("test project-" + i)
+                    .cropType(CropType.values()[i % CropType.values().length])
+                    .startDate(baseStartDate.plusDays((long) i * 10))
+                    .endDate(baseEndDate.minusDays((long) i * 10))
+                    .completed(i % 2 == 0)
+                    .build();
+            projects.add(project);
+            projectRepository.save(project);
+        }
+
+        return projects;
     }
 }
