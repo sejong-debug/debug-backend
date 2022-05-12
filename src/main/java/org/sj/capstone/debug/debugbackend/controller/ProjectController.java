@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.sj.capstone.debug.debugbackend.dto.common.ApiResult;
 import org.sj.capstone.debug.debugbackend.dto.project.ProjectCreationDto;
 import org.sj.capstone.debug.debugbackend.dto.project.ProjectDto;
+import org.sj.capstone.debug.debugbackend.dto.project.ProjectUpdateDto;
 import org.sj.capstone.debug.debugbackend.entity.CropType;
 import org.sj.capstone.debug.debugbackend.error.ErrorCode;
 import org.sj.capstone.debug.debugbackend.error.exception.BusinessException;
@@ -12,6 +13,7 @@ import org.sj.capstone.debug.debugbackend.security.MemberContext;
 import org.sj.capstone.debug.debugbackend.service.ProjectService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +46,25 @@ public class ProjectController {
                 .build();
 
         return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/{projectId}")
+    public ResponseEntity<ApiResult<Long>> updateProject(
+            @Valid @RequestBody ProjectUpdateDto updateDto,
+            @PathVariable long projectId, @LoginMemberId Long memberId) {
+        if (!projectService.isProjectOwnedByMember(projectId, memberId)) {
+            throw new BusinessException(ErrorCode.NOT_OWNED_RESOURCE,
+                    ">> projectId=" + projectId + ", memberId=" + memberId);
+        }
+
+        ApiResult<Long> result = ApiResult.<Long>builder()
+                .data(projectService.updateProject(updateDto, projectId))
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .location(linkTo(methodOn(ProjectController.class).getProject(projectId, memberId)).toUri())
+                .body(result);
     }
 
     @GetMapping
