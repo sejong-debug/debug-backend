@@ -23,3 +23,8 @@ operation::create-project[snippets='request-fields,http-request,response-headers
 == 프로젝트 조회
 
 operation::get-project[snippets='path-parameters,http-request,response-fields,http-response']
+
+[[update-project]]
+== 프로젝트 수정
+
+operation::update-project[snippets='path-parameters,request-fields,http-request,response-headers,response-fields,http-response']
