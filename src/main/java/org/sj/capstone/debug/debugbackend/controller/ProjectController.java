@@ -9,13 +9,11 @@ import org.sj.capstone.debug.debugbackend.entity.CropType;
 import org.sj.capstone.debug.debugbackend.error.ErrorCode;
 import org.sj.capstone.debug.debugbackend.error.exception.BusinessException;
 import org.sj.capstone.debug.debugbackend.security.LoginMemberId;
-import org.sj.capstone.debug.debugbackend.security.MemberContext;
 import org.sj.capstone.debug.debugbackend.service.ProjectService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,7 +34,7 @@ public class ProjectController {
     @GetMapping("/{projectId}")
     public ResponseEntity<ApiResult<ProjectDto>> getProject(
             @PathVariable long projectId, @LoginMemberId Long memberId) {
-        if (!projectService.isProjectOwnedByMember(projectId, memberId)) {
+        if (projectService.isProjectNotOwnedByMember(projectId, memberId)) {
             throw new BusinessException(ErrorCode.NOT_OWNED_RESOURCE,
                     ">> projectId=" + projectId + ", memberId=" + memberId);
         }
@@ -52,7 +50,7 @@ public class ProjectController {
     public ResponseEntity<ApiResult<Long>> updateProject(
             @Valid @RequestBody ProjectUpdateDto updateDto,
             @PathVariable long projectId, @LoginMemberId Long memberId) {
-        if (!projectService.isProjectOwnedByMember(projectId, memberId)) {
+        if (projectService.isProjectNotOwnedByMember(projectId, memberId)) {
             throw new BusinessException(ErrorCode.NOT_OWNED_RESOURCE,
                     ">> projectId=" + projectId + ", memberId=" + memberId);
         }
@@ -68,10 +66,13 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<Slice<ProjectDto>> queryProjects(
-            Pageable pageable, @AuthenticationPrincipal MemberContext memberContext) {
-        return ResponseEntity
-                .ok(projectService.getProjectSlice(pageable, memberContext.getMemberId()));
+    public ResponseEntity<ApiResult<Slice<ProjectDto>>> queryProjects(
+            Pageable pageable, @LoginMemberId Long memberId) {
+        ApiResult<Slice<ProjectDto>> result = ApiResult.<Slice<ProjectDto>>builder()
+                .data(projectService.getProjectSlice(pageable, memberId))
+                .build();
+
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping

@@ -65,7 +65,7 @@ public class ProjectService {
                 .map(ProjectDto::of);
     }
 
-    public boolean isProjectOwnedByMember(long projectId, long memberId) {
-        return projectRepository.existsByIdAndMemberId(projectId, memberId);
+    public boolean isProjectNotOwnedByMember(long projectId, long memberId) {
+        return !projectRepository.existsByIdAndMemberId(projectId, memberId);
     }
 }
