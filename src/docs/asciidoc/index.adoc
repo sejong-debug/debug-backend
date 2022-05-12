@@ -10,6 +10,8 @@
 
 .API
 - xref:login.adoc[Login]
+- xref:member.adoc[Member]
+- xref:project.adoc[Project]
 
 == API Result
 

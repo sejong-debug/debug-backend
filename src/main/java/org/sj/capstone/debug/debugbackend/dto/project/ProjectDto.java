@@ -1,4 +1,4 @@
-package org.sj.capstone.debug.debugbackend.dto;
+package org.sj.capstone.debug.debugbackend.dto.project;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
