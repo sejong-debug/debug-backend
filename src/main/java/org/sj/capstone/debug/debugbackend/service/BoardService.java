@@ -1,8 +1,8 @@
 package org.sj.capstone.debug.debugbackend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capstone.debug.debugbackend.dto.BoardCreationDto;
-import org.sj.capstone.debug.debugbackend.dto.BoardDto;
+import org.sj.capstone.debug.debugbackend.dto.board.BoardCreationDto;
+import org.sj.capstone.debug.debugbackend.dto.board.BoardDto;
 import org.sj.capstone.debug.debugbackend.repository.BoardImageRepository;
 import org.sj.capstone.debug.debugbackend.repository.BoardRepository;
 import org.sj.capstone.debug.debugbackend.repository.ProjectRepository;

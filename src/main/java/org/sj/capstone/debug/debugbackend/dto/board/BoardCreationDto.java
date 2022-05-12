@@ -1,4 +1,4 @@
-package org.sj.capstone.debug.debugbackend.dto;
+package org.sj.capstone.debug.debugbackend.dto.board;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
