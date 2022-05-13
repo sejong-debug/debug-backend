@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import org.sj.capstone.debug.debugbackend.entity.Board;
 
+import java.net.URI;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -15,6 +17,8 @@ public class BoardDto {
     private String content;
 
     private long boardImageId;
+
+    private URI boardImageUri;
 
     public static BoardDto of(Board board) {
         return BoardDto.builder()

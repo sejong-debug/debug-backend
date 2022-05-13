@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -37,7 +38,6 @@ public class BoardController {
             throw new BusinessException(ErrorCode.NOT_OWNED_RESOURCE,
                     ">> projectId=" + projectId + ", memberId=" + memberId);
         }
-
         long boardId = boardService.createBoard(boardCreationDto, projectId);
         ApiResult<Long> result = ApiResult.<Long>builder()
                 .data(boardId)
@@ -49,9 +49,18 @@ public class BoardController {
     }
 
     @GetMapping
-    public ResponseEntity<Slice<BoardDto>> queryBoards(
+    public ResponseEntity<ApiResult<Slice<BoardDto>>> queryBoards(
             @PathVariable long projectId, Pageable pageable) {
-        return ResponseEntity.ok(boardService.getBoardSlice(pageable, projectId));
+        Slice<BoardDto> boardSlice = boardService.getBoardSlice(pageable, projectId)
+                .map(boardDto -> {
+                    boardDto.setBoardImageUri(
+                            linkTo(BoardImageController.class).slash(boardDto.getBoardImageId()).toUri());
+                    return boardDto;
+                });
+        ApiResult<Slice<BoardDto>> result = ApiResult.<Slice<BoardDto>>builder()
+                .data(boardSlice)
+                .build();
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/{boardId}")
