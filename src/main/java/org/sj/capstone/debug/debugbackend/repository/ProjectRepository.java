@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     Slice<Project> findAllByMemberId(Pageable pageable, long memberId);
+
+    boolean existsByIdAndMemberId(long id, long memberId);
 }

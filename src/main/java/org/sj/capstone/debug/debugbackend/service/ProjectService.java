@@ -1,10 +1,13 @@
 package org.sj.capstone.debug.debugbackend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capstone.debug.debugbackend.dto.ProjectCreationDto;
-import org.sj.capstone.debug.debugbackend.dto.ProjectDto;
+import org.sj.capstone.debug.debugbackend.dto.project.ProjectCreationDto;
+import org.sj.capstone.debug.debugbackend.dto.project.ProjectDto;
+import org.sj.capstone.debug.debugbackend.dto.project.ProjectUpdateDto;
 import org.sj.capstone.debug.debugbackend.entity.Member;
 import org.sj.capstone.debug.debugbackend.entity.Project;
+import org.sj.capstone.debug.debugbackend.error.ErrorCode;
+import org.sj.capstone.debug.debugbackend.error.exception.BusinessException;
 import org.sj.capstone.debug.debugbackend.repository.MemberRepository;
 import org.sj.capstone.debug.debugbackend.repository.ProjectRepository;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +33,8 @@ public class ProjectService {
     @Transactional
     public long createProject(ProjectCreationDto creationDto, long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
-                new IllegalArgumentException("존재하지 않는 memberId = " + memberId));
+                new BusinessException(ErrorCode.RESOURCE_NOT_FOUND,
+                        ">> memberId=" + memberId));
         Project project = Project.builder()
                 .name(creationDto.getName())
                 .member(member)
@@ -41,8 +45,27 @@ public class ProjectService {
         return projectRepository.save(project).getId();
     }
 
+    @Transactional
+    public long updateProject(ProjectUpdateDto updateDto, long projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() ->
+                new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, ">> projectId=" + projectId));
+        Project updatedProject = Project.builder()
+                .id(project.getId())
+                .name(updateDto.getName())
+                .member(project.getMember())
+                .startDate(updateDto.getStartDate())
+                .endDate(updateDto.getEndDate())
+                .cropType(updateDto.getCropType())
+                .build();
+        return projectRepository.save(updatedProject).getId();
+    }
+
     public Slice<ProjectDto> getProjectSlice(Pageable pageable, long memberId) {
         return projectRepository.findAllByMemberId(pageable, memberId)
                 .map(ProjectDto::of);
+    }
+
+    public boolean isProjectNotOwnedByMember(long projectId, long memberId) {
+        return !projectRepository.existsByIdAndMemberId(projectId, memberId);
     }
 }
