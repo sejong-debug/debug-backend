@@ -19,7 +19,7 @@ public class BoardDto {
     public static BoardDto of(Board board) {
         return BoardDto.builder()
                 .boardId(board.getId())
-                .content(board.getContent())
+                .content(board.getMemo())
                 .boardImageId(board.getBoardImage().getId())
                 .build();
     }

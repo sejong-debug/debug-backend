@@ -12,7 +12,7 @@ public class BoardCreationDto {
 
     @NotEmpty
     @Size(max = 255)
-    private String content;
+    private String memo;
 
     @NotNull
     private MultipartFile image;
