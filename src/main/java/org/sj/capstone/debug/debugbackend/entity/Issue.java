@@ -9,6 +9,7 @@ import javax.persistence.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import static javax.persistence.FetchType.*;
 import static javax.persistence.GenerationType.*;
@@ -19,7 +20,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
-public class Issue {
+public class Issue extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
@@ -29,6 +30,11 @@ public class Issue {
     @JoinColumn(name = "board_image_id", nullable = false)
     private BoardImage boardImage;
 
-    @Embedded
-    private Disease disease;
+    @ElementCollection
+    @CollectionTable(name = "issue_probability",
+            joinColumns = @JoinColumn(name = "issue_id", nullable = false)
+    )
+    @MapKeyColumn(name = "name", length = 45)
+    @Column(name = "probability", nullable = false)
+    private Map<String, Double> nameToProbs = new TreeMap<>();
 }

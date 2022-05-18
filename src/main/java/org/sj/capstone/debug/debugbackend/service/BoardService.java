@@ -1,8 +1,10 @@
 package org.sj.capstone.debug.debugbackend.service;
 
 import lombok.RequiredArgsConstructor;
-import org.sj.capstone.debug.debugbackend.dto.BoardCreationDto;
-import org.sj.capstone.debug.debugbackend.dto.BoardDto;
+import org.sj.capstone.debug.debugbackend.dto.board.BoardCreationDto;
+import org.sj.capstone.debug.debugbackend.dto.board.BoardDto;
+import org.sj.capstone.debug.debugbackend.error.ErrorCode;
+import org.sj.capstone.debug.debugbackend.error.exception.BusinessException;
 import org.sj.capstone.debug.debugbackend.repository.BoardImageRepository;
 import org.sj.capstone.debug.debugbackend.repository.BoardRepository;
 import org.sj.capstone.debug.debugbackend.repository.ProjectRepository;
@@ -32,14 +34,14 @@ public class BoardService {
 
     @Transactional
     public long createBoard(BoardCreationDto creationDto, long projectId) throws IOException {
-        Project project = projectRepository.findById(projectId).orElseThrow(
-                () -> new IllegalArgumentException("존재하지 않는 projectId = " + projectId));
+        Project project = projectRepository.findById(projectId).orElseThrow(() ->
+                new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, ">> projectId=" + projectId));
         BoardImage boardImage = imageStore.storeImage(creationDto.getImage());
         boardImageRepository.save(boardImage);
 
         Board board = Board.builder()
                 .project(project)
-                .content(creationDto.getContent())
+                .memo(creationDto.getMemo())
                 .boardImage(boardImage)
                 .build();
 

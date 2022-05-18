@@ -12,7 +12,6 @@ import org.sj.capstone.debug.debugbackend.security.LoginMemberId;
 import org.sj.capstone.debug.debugbackend.service.ProjectService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,9 +55,25 @@ public class ProjectController {
             throw new BusinessException(ErrorCode.NOT_OWNED_RESOURCE,
                     ">> projectId=" + projectId + ", memberId=" + memberId);
         }
-
         ApiResult<Long> result = ApiResult.<Long>builder()
                 .data(projectService.updateProject(updateDto, projectId))
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .location(linkTo(methodOn(ProjectController.class).getProject(projectId, memberId)).toUri())
+                .body(result);
+    }
+
+    @PutMapping("/{projectId}/completed")
+    public ResponseEntity<ApiResult<Long>> updateProjectCompleted(
+            @PathVariable long projectId, @LoginMemberId Long memberId, @RequestParam boolean completed) {
+        if (projectService.isProjectNotOwnedByMember(projectId, memberId)) {
+            throw new BusinessException(ErrorCode.NOT_OWNED_RESOURCE,
+                    ">> projectId=" + projectId + ", memberId=" + memberId);
+        }
+        ApiResult<Long> result = ApiResult.<Long>builder()
+                .data(projectService.updateProjectCompleted(projectId, completed))
                 .build();
 
         return ResponseEntity
@@ -70,6 +85,7 @@ public class ProjectController {
     @GetMapping
     public ResponseEntity<ApiResult<Slice<ProjectDto>>> queryProjects(
             @PageableDefault(sort = {"endDate", "startDate"}) Pageable pageable, @LoginMemberId Long memberId) {
+
         ApiResult<Slice<ProjectDto>> result = ApiResult.<Slice<ProjectDto>>builder()
                 .data(projectService.getProjectSlice(pageable, memberId))
                 .build();

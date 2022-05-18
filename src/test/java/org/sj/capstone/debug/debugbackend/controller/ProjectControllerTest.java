@@ -259,4 +259,30 @@ class ProjectControllerTest {
 
         return projects;
     }
+
+    @Test
+    @WithUserDetails
+    @DisplayName("프로젝트 완료여부 수정")
+    void updateProjectCompleted() throws Exception {
+
+        Project project = TestDataConfig.project;
+        mockMvc.perform(put("/projects/{projectId}/completed", project.getId())
+                        .param("completed", String.valueOf(true))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(jsonPath("success").value(true))
+                .andExpect(jsonPath("data").value(project.getId()))
+                .andDo(document("update-project-completed",
+                        requestParameters(
+                                parameterWithName("completed").description("프로젝트 완료 여부")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.LOCATION).description("수정된 프로젝트 요청")
+                        ),
+                        responseFields(
+                                fieldWithPath("success").description("요청 성공 여부"),
+                                fieldWithPath("data").description("수정된 프로젝트 아이디")
+                        )
+                ));
+    }
 }

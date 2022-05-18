@@ -25,16 +25,13 @@ public class ProjectService {
     private final MemberRepository memberRepository;
 
     public ProjectDto getProject(long projectId) {
-        return projectRepository.findById(projectId)
-                .map(ProjectDto::of)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 projectId = " + projectId));
+        return ProjectDto.of(getProjectEntity(projectId));
     }
 
     @Transactional
     public long createProject(ProjectCreationDto creationDto, long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() ->
-                new BusinessException(ErrorCode.RESOURCE_NOT_FOUND,
-                        ">> memberId=" + memberId));
+                new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, ">> memberId=" + memberId));
         Project project = Project.builder()
                 .name(creationDto.getName())
                 .member(member)
@@ -47,15 +44,15 @@ public class ProjectService {
 
     @Transactional
     public long updateProject(ProjectUpdateDto updateDto, long projectId) {
-        Project project = projectRepository.findById(projectId).orElseThrow(() ->
-                new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, ">> projectId=" + projectId));
+        Project project = getProjectEntity(projectId);
         Project updatedProject = Project.builder()
                 .id(project.getId())
-                .name(updateDto.getName())
                 .member(project.getMember())
+                .name(updateDto.getName())
                 .startDate(updateDto.getStartDate())
                 .endDate(updateDto.getEndDate())
                 .cropType(updateDto.getCropType())
+                .completed(updateDto.getCompleted())
                 .build();
         return projectRepository.save(updatedProject).getId();
     }
@@ -67,5 +64,25 @@ public class ProjectService {
 
     public boolean isProjectNotOwnedByMember(long projectId, long memberId) {
         return !projectRepository.existsByIdAndMemberId(projectId, memberId);
+    }
+
+    @Transactional
+    public long updateProjectCompleted(long projectId, boolean completed) {
+        Project project = getProjectEntity(projectId);
+        Project updatedProject = Project.builder()
+                .id(project.getId())
+                .member(project.getMember())
+                .name(project.getName())
+                .startDate(project.getStartDate())
+                .endDate(project.getEndDate())
+                .cropType(project.getCropType())
+                .completed(completed)
+                .build();
+        return projectRepository.save(updatedProject).getId();
+    }
+
+    private Project getProjectEntity(long projectId) {
+        return projectRepository.findById(projectId).orElseThrow(() ->
+                new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, ">> projectId=" + projectId));
     }
 }

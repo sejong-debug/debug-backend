@@ -3,6 +3,7 @@ package org.sj.capstone.debug.debugbackend.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.sj.capstone.debug.debugbackend.common.RestDocsConfig;
+import org.sj.capstone.debug.debugbackend.common.TestDataConfig;
 import org.sj.capstone.debug.debugbackend.dto.member.MemberJoinDto;
 import org.sj.capstone.debug.debugbackend.entity.Member;
 import org.sj.capstone.debug.debugbackend.repository.MemberRepository;
@@ -32,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-@Import(RestDocsConfig.class)
+@Import({RestDocsConfig.class, TestDataConfig.class})
 @ActiveProfiles("test")
 @Transactional
 class IndexControllerTest {
