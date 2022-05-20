@@ -5,11 +5,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.sj.capstone.debug.debugbackend.common.RestDocsConfig;
 import org.sj.capstone.debug.debugbackend.common.TestDataConfig;
+import org.sj.capstone.debug.debugbackend.dto.board.BoardCreationDto;
 import org.sj.capstone.debug.debugbackend.entity.Project;
+import org.sj.capstone.debug.debugbackend.service.BoardService;
+import org.sj.capstone.debug.debugbackend.util.IssueDetectionClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -47,6 +52,9 @@ class BoardControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @MockBean
+    BoardService boardService;
+
     @Test
     @WithUserDetails
     @DisplayName("게시물 생성")
@@ -56,9 +64,14 @@ class BoardControllerTest {
         MockMultipartFile image = new MockMultipartFile("image", "test-image.png",
                 MediaType.IMAGE_PNG_VALUE, "test-image".getBytes());
 
+        BoardCreationDto creationDto = new BoardCreationDto();
+        creationDto.setImage(image);
+        creationDto.setMemo("테스트 메모");
+        given(boardService.createBoard(creationDto, project.getId())).willReturn(1L);
+
         mockMvc.perform(multipart("/projects/{projectId}/boards", project.getId())
                         .file(image)
-                        .param("memo", "테스트 메모")
+                        .param("memo", creationDto.getMemo())
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
