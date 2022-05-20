@@ -33,3 +33,8 @@ operation::get-project[snippets='path-parameters,http-request,response-fields,ht
 == 프로젝트 리스트 조회
 
 operation::query-projects[snippets='request-parameters,http-request,response-fields,http-response']
+
+[[update-project-completed]]
+== 프로젝트 완료 여부 수정
+
+operation::update-project-completed[snippets='request-parameters,http-request,response-headers,response-fields,http-response']

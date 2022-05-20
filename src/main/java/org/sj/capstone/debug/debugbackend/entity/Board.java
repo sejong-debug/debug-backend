@@ -23,8 +23,8 @@ public class Board extends BaseTimeEntity {
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
 
-    @Column(name = "content", nullable = false)
-    private String content;
+    @Column(name = "memo", nullable = false)
+    private String memo;
 
     @OneToOne(fetch = LAZY)
     @JoinColumn(name = "board_image_id", nullable = false)
