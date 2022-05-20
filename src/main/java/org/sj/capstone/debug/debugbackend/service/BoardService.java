@@ -3,6 +3,7 @@ package org.sj.capstone.debug.debugbackend.service;
 import lombok.RequiredArgsConstructor;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardCreationDto;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardDto;
+import org.sj.capstone.debug.debugbackend.dto.board.BoardIssueDto;
 import org.sj.capstone.debug.debugbackend.dto.issue.IssueDetectionDto;
 import org.sj.capstone.debug.debugbackend.entity.*;
 import org.sj.capstone.debug.debugbackend.error.ErrorCode;
@@ -12,6 +13,7 @@ import org.sj.capstone.debug.debugbackend.repository.BoardRepository;
 import org.sj.capstone.debug.debugbackend.repository.IssueRepository;
 import org.sj.capstone.debug.debugbackend.repository.ProjectRepository;
 import org.sj.capstone.debug.debugbackend.util.ImageStore;
+import org.sj.capstone.debug.debugbackend.util.IssueConst;
 import org.sj.capstone.debug.debugbackend.util.IssueDetectionClient;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -51,16 +53,12 @@ public class BoardService {
             "콩_들불병",
             "콩_불마름병",
             "콩_병징",
-            "팥 정상",
-            "참깨 정상",
-            "콩 정상",
             "가지잎곰팡이병",
             "가지흰가루병",
             "고추마일드모틀바이러스병",
             "고추점무늬병",
             "단호박점무늬병",
             "단호박흰가루병",
-            "딸기잿빛곰팡이병",
             "딸기흰가루병",
             "상추균핵병",
             "상추노균병",
@@ -74,7 +72,6 @@ public class BoardService {
             "토마토잎곰팡이병",
             "토마토황화잎말이바이러스병",
             "포도노균병",
-            "고추탄저병",
             "고추흰가루병",
             "무검은무늬병",
             "무노균병",
@@ -96,51 +93,7 @@ public class BoardService {
             "배과수화상병",
             "사과갈색무늬병",
             "사과과수화상병",
-            "사과부란병",
-            "사과점무늬낙엽병",
-            "사과탄저병",
-            "가지 정상",
-            "감자 정상",
-            "고추 정상",
-            "단호박 정상",
-            "들깨 정상",
-            "딸기 정상",
-            "무 정상",
-            "배 정상",
-            "배추 정상",
-            "벼 정상",
-            "사과 정상",
-            "상추 정상",
-            "수박 정상",
-            "애호박 정상",
-            "양배추 정상",
-            "오이 정상",
-            "옥수수 정상",
-            "쥬키니호박 정상",
-            "참외 정상",
-            "토마토 정상",
-            "파 정상",
-            "포도 정상",
-            "호박 정상",
-            "검거세미밤나방",
-            "꽃노랑총채벌레",
-            "담배가루이",
-            "담배거세미나방",
-            "담배나방",
-            "도둑나방",
-            "먹노린재",
-            "목화바둑명나방",
-            "무잎벌",
-            "배추좀나방",
-            "배추흰나비",
-            "벼룩잎벌레",
-            "복숭아혹진딧물",
-            "비단노린재",
-            "썩덩나무노린재",
-            "열대거세미나방",
-            "큰28점박이무당벌레",
-            "톱다리개미허리노린재",
-            "파밤나방"
+            "사과점무늬낙엽병"
     );
 
     @Transactional
@@ -177,9 +130,17 @@ public class BoardService {
                 .map(BoardDto::of);
     }
 
-    public BoardDto getBoard(long boardId) {
-        return boardRepository.findById(boardId)
-                .map(BoardDto::of)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 boardId = " + boardId));
+    public BoardIssueDto getBoard(long boardId) {
+        BoardIssueDto boardIssueDto = boardRepository.findById(boardId)
+                .map(BoardIssueDto::of)
+                .orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, ">> boardId=" + boardId));
+        List<String> issues = issueRepository.findByBoardId(boardIssueDto.getBoardId()).map(issue ->
+                        issue.getNameToProbs().entrySet().stream()
+                                .filter(entry -> entry.getValue() > IssueConst.CONFIDENCE_THRESHOLD)
+                                .map(Map.Entry::getKey).collect(Collectors.toList()))
+                .orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND,
+                        "Issue is not found >> boardId=" + boardId));
+        boardIssueDto.setIssues(issues);
+        return boardIssueDto;
     }
 }
