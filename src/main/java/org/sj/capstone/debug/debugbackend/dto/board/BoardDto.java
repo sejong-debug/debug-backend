@@ -14,7 +14,7 @@ public class BoardDto {
 
     private long boardId;
 
-    private String content;
+    private String memo;
 
     private long boardImageId;
 
@@ -23,7 +23,7 @@ public class BoardDto {
     public static BoardDto of(Board board) {
         return BoardDto.builder()
                 .boardId(board.getId())
-                .content(board.getMemo())
+                .memo(board.getMemo())
                 .boardImageId(board.getBoardImage().getId())
                 .build();
     }
