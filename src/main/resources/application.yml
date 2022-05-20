@@ -5,7 +5,6 @@ spring:
     password: sj_debug
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-
   jpa:
     open-in-view: false
     hibernate:
@@ -38,3 +37,10 @@ my-app:
 jwt:
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
   token-validity-in-seconds: 86400
+
+ai-server:
+  schema: http
+  host: 6b79-104-199-160-240.ngrok.io
+  port: ~
+  issue-detection:
+    path: /detect-issue

@@ -17,6 +17,8 @@ public enum ErrorCode {
 
     LOGIN_INPUT_INVALID(MEMBER, SC_BAD_REQUEST, "Login input is invalid"),
     USERNAME_DUPLICATION(MEMBER, SC_CONFLICT, "Username is Duplication"),
+
+    IMAGE_IO_EXCEPTION(AI_CLIENT, SC_INTERNAL_SERVER_ERROR, "Error is in Image bytes"),
     ;
 
     private final Domain domain;
@@ -28,5 +30,6 @@ public enum ErrorCode {
     enum Domain {
         COMMON,
         MEMBER,
+        AI_CLIENT
     }
 }
