@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.sj.capstone.debug.debugbackend.common.RestDocsConfig;
 import org.sj.capstone.debug.debugbackend.common.TestDataConfig;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardCreationDto;
+import org.sj.capstone.debug.debugbackend.dto.board.BoardIssueDto;
 import org.sj.capstone.debug.debugbackend.entity.Project;
 import org.sj.capstone.debug.debugbackend.service.BoardService;
 import org.sj.capstone.debug.debugbackend.util.IssueDetectionClient;
@@ -24,13 +25,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.multipart;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
@@ -95,5 +98,43 @@ class BoardControllerTest {
                                 fieldWithPath("data").description("생성된 게시물 아이디")
                         )
                 ));
+    }
+
+    @Test
+    @WithUserDetails
+    @DisplayName("게시물 조회")
+    void getBoard() throws Exception {
+        Project project = TestDataConfig.project;
+        long mockBoardId = 1L;
+        long mockBoardImageId = 1L;
+
+        BoardIssueDto boardIssueDto = new BoardIssueDto();
+        boardIssueDto.setBoardId(mockBoardId);
+        boardIssueDto.setBoardImageId(mockBoardImageId);
+        boardIssueDto.setMemo("테스트 게시물");
+        boardIssueDto.setBoardImageUri(linkTo(BoardImageController.class).slash(mockBoardImageId).toUri());
+        boardIssueDto.setIssues(List.of("질병1", "질병2", "질병3"));
+        given(boardService.getBoard(mockBoardId)).willReturn(boardIssueDto);
+
+        mockMvc.perform(get("/projects/{projectId}/boards/{boardId}", project.getId(), mockBoardId)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("get-board",
+                        pathParameters(
+                                parameterWithName("projectId").description("조회하려는 게시물이 속한 프로젝트 아이디"),
+                                parameterWithName("boardId").description("조회하려는 게시물 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("success").description("요청 성공 여부"),
+                                fieldWithPath("data").description("조회한 게시물 정보"),
+                                fieldWithPath("data.boardId").description("조회한 게시물 아이디"),
+                                fieldWithPath("data.memo").description("조회한 게시물 메모"),
+                                fieldWithPath("data.boardImageId").description("조회한 게시물 이미지 아이디"),
+                                fieldWithPath("data.boardImageUri").description("조회한 게시물 이미지 요청"),
+                                fieldWithPath("data.issues").description("조회한 게시물 내 이슈 목록")
+                        )
+                ))
+        ;
     }
 }

@@ -13,3 +13,8 @@
 == 게시물 생성
 
 operation::create-board[snippets='path-parameters,request-parameters,request-parts,http-request,response-headers,response-fields,http-response']
+
+[[get-board]]
+== 게시물 조회
+
+operation::get-board[snippets='path-parameters,http-request,response-fields,http-response']
