@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardCreationDto;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardDto;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardIssueDto;
+import org.sj.capstone.debug.debugbackend.dto.board.BoardUpdateDto;
 import org.sj.capstone.debug.debugbackend.dto.common.ApiResult;
 import org.sj.capstone.debug.debugbackend.error.ErrorCode;
 import org.sj.capstone.debug.debugbackend.error.exception.BusinessException;
@@ -12,6 +13,7 @@ import org.sj.capstone.debug.debugbackend.service.BoardService;
 import org.sj.capstone.debug.debugbackend.service.ProjectService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,6 +79,26 @@ public class BoardController {
                 .build();
 
         return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/{boardId}")
+    public ResponseEntity<ApiResult<Long>> updateBoard(
+            @RequestBody @Valid BoardUpdateDto updateDto, @PathVariable long projectId, @PathVariable long boardId,
+            @LoginMemberId Long memberId) {
+        if (projectService.isProjectNotOwnedByMember(projectId, memberId) ||
+                boardService.isBoardNotOwnedByProject(boardId, projectId)) {
+            throw new BusinessException(ErrorCode.NOT_OWNED_RESOURCE,
+                    ">> memberId=" + memberId + ", projectId=" + projectId + ", boardId=" + boardId);
+        }
+
+        ApiResult<Long> result = ApiResult.<Long>builder()
+                .data(boardService.updateBoard(updateDto, boardId))
+                .build();
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .location(linkTo(methodOn(BoardController.class).getBoard(projectId, boardId, memberId)).toUri())
+                .body(result);
     }
 
     private URI createBoardImageUri(long boardImageId) {

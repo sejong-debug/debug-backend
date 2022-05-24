@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardCreationDto;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardDto;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardIssueDto;
+import org.sj.capstone.debug.debugbackend.dto.board.BoardUpdateDto;
 import org.sj.capstone.debug.debugbackend.dto.issue.IssueDetectionDto;
 import org.sj.capstone.debug.debugbackend.entity.*;
 import org.sj.capstone.debug.debugbackend.error.ErrorCode;
@@ -142,5 +143,25 @@ public class BoardService {
                         "Issue is not found >> boardId=" + boardId));
         boardIssueDto.setIssues(issues);
         return boardIssueDto;
+    }
+
+    @Transactional
+    public long updateBoard(BoardUpdateDto updateDto, long boardId) {
+        Board board = getBoardEntity(boardId);
+        Board updatedBoard = Board.builder()
+                .id(board.getId())
+                .memo(updateDto.getMemo())
+                .boardImage(board.getBoardImage())
+                .build();
+        return boardRepository.save(updatedBoard).getId();
+    }
+
+    public boolean isBoardNotOwnedByProject(long boardId, long projectId) {
+        return !boardRepository.existsByIdAndProjectId(boardId, projectId);
+    }
+
+    private Board getBoardEntity(long boardId) {
+        return boardRepository.findById(boardId).orElseThrow(() ->
+                new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "Board is not found >> boardId=" + boardId));
     }
 }
