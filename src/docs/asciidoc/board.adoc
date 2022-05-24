@@ -18,3 +18,8 @@ operation::create-board[snippets='path-parameters,request-parameters,request-par
 == 게시물 조회
 
 operation::get-board[snippets='path-parameters,http-request,response-fields,http-response']
+
+[[update-board]]
+== 게시물 수정
+
+operation::update-board[snippets='request-fields,http-request,response-headers,response-fields,http-response']

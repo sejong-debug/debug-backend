@@ -7,6 +7,9 @@ import org.sj.capstone.debug.debugbackend.common.RestDocsConfig;
 import org.sj.capstone.debug.debugbackend.common.TestDataConfig;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardCreationDto;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardIssueDto;
+import org.sj.capstone.debug.debugbackend.dto.board.BoardUpdateDto;
+import org.sj.capstone.debug.debugbackend.entity.Board;
+import org.sj.capstone.debug.debugbackend.entity.BoardImage;
 import org.sj.capstone.debug.debugbackend.entity.Project;
 import org.sj.capstone.debug.debugbackend.service.BoardService;
 import org.sj.capstone.debug.debugbackend.util.IssueDetectionClient;
@@ -34,8 +37,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.headerWit
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -105,18 +107,18 @@ class BoardControllerTest {
     @DisplayName("게시물 조회")
     void getBoard() throws Exception {
         Project project = TestDataConfig.project;
-        long mockBoardId = 1L;
-        long mockBoardImageId = 1L;
+        Board board = TestDataConfig.board;
+        BoardImage boardImage = TestDataConfig.boardImage;
 
         BoardIssueDto boardIssueDto = new BoardIssueDto();
-        boardIssueDto.setBoardId(mockBoardId);
-        boardIssueDto.setBoardImageId(mockBoardImageId);
+        boardIssueDto.setBoardId(board.getId());
+        boardIssueDto.setBoardImageId(boardImage.getId());
         boardIssueDto.setMemo("테스트 게시물");
-        boardIssueDto.setBoardImageUri(linkTo(BoardImageController.class).slash(mockBoardImageId).toUri());
+        boardIssueDto.setBoardImageUri(linkTo(BoardImageController.class).slash(boardImage.getId()).toUri());
         boardIssueDto.setIssues(List.of("질병1", "질병2", "질병3"));
-        given(boardService.getBoard(mockBoardId)).willReturn(boardIssueDto);
+        given(boardService.getBoard(board.getId())).willReturn(boardIssueDto);
 
-        mockMvc.perform(get("/projects/{projectId}/boards/{boardId}", project.getId(), mockBoardId)
+        mockMvc.perform(get("/projects/{projectId}/boards/{boardId}", project.getId(), board.getId())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -134,7 +136,37 @@ class BoardControllerTest {
                                 fieldWithPath("data.boardImageUri").description("조회한 게시물 이미지 요청"),
                                 fieldWithPath("data.issues").description("조회한 게시물 내 이슈 목록")
                         )
-                ))
-        ;
+                ));
+    }
+
+    @Test
+    @WithUserDetails
+    @DisplayName("게시물 수정")
+    void updateBoard() throws Exception {
+        Project project = TestDataConfig.project;
+        Board board = TestDataConfig.board;
+
+        BoardUpdateDto boardUpdateDto = new BoardUpdateDto();
+        boardUpdateDto.setMemo("update-memo");
+        given(boardService.updateBoard(boardUpdateDto, board.getId())).willReturn(board.getId());
+
+        mockMvc.perform(put("/projects/{projectId}/boards/{boardId}", project.getId(), board.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(boardUpdateDto)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("update-board",
+                        requestFields(
+                                fieldWithPath("memo").description("수정하려는 게시물 메모 ")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.LOCATION).description("수정된 게시물 조회 요청")
+                        ),
+                        responseFields(
+                                fieldWithPath("success").description("요청 성공 여부"),
+                                fieldWithPath("data").description("수정된 게시물 아이디")
+                        )
+                ));
     }
 }
