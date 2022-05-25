@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.sj.capstone.debug.debugbackend.common.RestDocsConfig;
 import org.sj.capstone.debug.debugbackend.common.TestDataConfig;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardCreationDto;
+import org.sj.capstone.debug.debugbackend.dto.board.BoardDto;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardIssueDto;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardUpdateDto;
 import org.sj.capstone.debug.debugbackend.entity.Board;
@@ -19,6 +20,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -28,6 +33,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -166,6 +172,42 @@ class BoardControllerTest {
                         responseFields(
                                 fieldWithPath("success").description("요청 성공 여부"),
                                 fieldWithPath("data").description("수정된 게시물 아이디")
+                        )
+                ));
+    }
+
+    @Test
+    @WithUserDetails
+    @DisplayName("게시물 리스트 슬라이스 조회")
+    void queryBoards() throws Exception {
+        Project project = TestDataConfig.project;
+        Board board = TestDataConfig.board;
+        BoardDto boardDto = new BoardDto();
+        boardDto.setBoardId(board.getId());
+        boardDto.setMemo(board.getMemo());
+        boardDto.setBoardImageId(board.getBoardImage().getId());
+
+        Pageable pageable = PageRequest.of(0, 10);
+        given(boardService.getBoardSlice(pageable, project.getId()))
+                .willReturn(new SliceImpl<>(List.of(boardDto), pageable, false));
+
+        mockMvc.perform(get("/projects/{projectId}/boards", project.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .param("page", String.valueOf(0))
+                        .param("size", String.valueOf(10)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("success").value(true))
+                .andDo(document("query-boards",
+                        requestParameters(
+                                parameterWithName("page").description("요청하려는 페이지 인덱스. default=0"),
+                                parameterWithName("size").description("요청하려는 페이지 내 컨텐츠 크기. default=10, max=100")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("success").description("요청 성공 여부"),
+                                fieldWithPath("data").description("응답된 페이지"),
+                                fieldWithPath("data.content").description("응답된 페이지 내용. Board 조회 응답과 유사. issues 없음"),
+                                fieldWithPath("data.number").description("페이지 넘버")
                         )
                 ));
     }

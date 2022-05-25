@@ -23,3 +23,5 @@ operation::get-board[snippets='path-parameters,http-request,response-fields,http
 == 게시물 수정
 
 operation::update-board[snippets='request-fields,http-request,response-headers,response-fields,http-response']
+
+operation::query-boards[snippets='request-parameters,http-request,response-fields,http-response']
