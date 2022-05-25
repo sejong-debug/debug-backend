@@ -6,13 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static javax.persistence.FetchType.*;
-import static javax.persistence.GenerationType.*;
+import static javax.persistence.FetchType.LAZY;
+import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -21,12 +19,13 @@ import static lombok.AccessLevel.PROTECTED;
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
 public class Issue extends BaseTimeEntity {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = LAZY)
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "board_image_id", nullable = false)
     private BoardImage boardImage;
 
@@ -36,5 +35,6 @@ public class Issue extends BaseTimeEntity {
     )
     @MapKeyColumn(name = "name", length = 45)
     @Column(name = "probability", nullable = false)
+    @Builder.Default
     private Map<String, Double> nameToProbs = new TreeMap<>();
 }
