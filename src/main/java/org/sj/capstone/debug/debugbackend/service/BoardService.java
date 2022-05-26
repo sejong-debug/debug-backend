@@ -1,6 +1,7 @@
 package org.sj.capstone.debug.debugbackend.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardCreationDto;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardDto;
 import org.sj.capstone.debug.debugbackend.dto.board.BoardIssueDto;
@@ -30,6 +31,7 @@ import java.util.stream.IntStream;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class BoardService {
 
     private final ProjectRepository projectRepository;
@@ -97,32 +99,39 @@ public class BoardService {
             "사과점무늬낙엽병"
     );
 
+    /**
+     * TODO 로직 변경 -> AI Server 웹서버에서 이미지를 가져가도록 & 비동기
+     * image 를 먼저 저장(storeImage)하면서 MultipartFile 내부가 변경되는듯
+     * 이후 issue detection request 하면 에러 발생
+     * 현재 임시로 request 를 맨위로 올리고 boardImageId 도 현재는 사용하지 않으므로 임시 값으로 넣어둠
+     */
     @Transactional
     public long createBoard(BoardCreationDto creationDto, long projectId) throws IOException {
         Project project = projectRepository.findById(projectId).orElseThrow(() ->
                 new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, ">> projectId=" + projectId));
+
+        IssueDetectionDto issueDetectionDto = issueDetectionClient.request(1L, creationDto.getImage());
+
         BoardImage boardImage = imageStore.storeImage(creationDto.getImage());
         boardImageRepository.save(boardImage);
 
-        IssueDetectionDto issueDetectionDto = issueDetectionClient.request(boardImage.getId(), creationDto.getImage());
         Map<String, Double> issueNameToProbs = convertIssueProbListToNameProbMap(issueDetectionDto.getIssueProbs());
         Issue issue = Issue.builder()
                 .boardImage(boardImage)
                 .nameToProbs(issueNameToProbs)
                 .build();
+        issueRepository.save(issue);
 
         Board board = Board.builder()
                 .project(project)
                 .memo(creationDto.getMemo())
                 .boardImage(boardImage)
                 .build();
-
-        issueRepository.save(issue);
         return boardRepository.save(board).getId();
     }
 
     private Map<String, Double> convertIssueProbListToNameProbMap(List<Double> issueProbList) {
-        return IntStream.rangeClosed(0, issueProbList.size()).boxed()
+        return IntStream.range(0, Math.min(issueProbList.size(), ISSUE_NAMES.size())).boxed()
                 .collect(Collectors.toMap(ISSUE_NAMES::get, issueProbList::get));
     }
 
