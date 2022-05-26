@@ -20,7 +20,7 @@ public class BoardDto {
         BoardDto boardDto = new BoardDto();
         boardDto.setBoardId(board.getId());
         boardDto.setMemo(board.getMemo());
-        boardDto.setBoardId(board.getBoardImage().getId());
+        boardDto.setBoardImageId(board.getBoardImage().getId());
         return boardDto;
     }
 }
