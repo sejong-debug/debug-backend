@@ -87,7 +87,7 @@ public class ProjectController {
     @GetMapping
     public ResponseEntity<ApiResult<Slice<ProjectDto>>> queryProjects(
             @SortDefault.SortDefaults({
-                    @SortDefault(sort = "completed", direction = Sort.Direction.DESC),
+                    @SortDefault(sort = "completed", direction = Sort.Direction.ASC),
                     @SortDefault(sort = "endDate", direction = Sort.Direction.DESC),
                     @SortDefault(sort = "startDate", direction = Sort.Direction.DESC)
             }) Pageable pageable,
