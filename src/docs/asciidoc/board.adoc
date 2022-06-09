@@ -1,0 +1,27 @@
+= Board
+조영래;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
+
+[[create-board]]
+== 게시물 생성
+
+operation::create-board[snippets='path-parameters,request-parameters,request-parts,http-request,response-headers,response-fields,http-response']
+
+[[get-board]]
+== 게시물 조회
+
+operation::get-board[snippets='path-parameters,http-request,response-fields,http-response']
+
+[[update-board]]
+== 게시물 수정
+
+operation::update-board[snippets='request-fields,http-request,response-headers,response-fields,http-response']
+
+operation::query-boards[snippets='request-parameters,http-request,response-fields,http-response']

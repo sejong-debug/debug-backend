@@ -1,0 +1,38 @@
+= Sejong Debug API Docs
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
+
+.API
+- xref:login.adoc[Login]
+- xref:member.adoc[Member]
+- xref:project.adoc[Project]
+- xref:board.adoc[Board]
+
+== API Result
+
+[source]
+----
+object {
+    boolean success;
+    object {
+        // 응답 데이터
+    }* data?;
+    object {
+        integer code?;
+        string message?;
+        array [
+            object {
+                string field?;
+                string value?;
+                string reason?;
+            }*;
+        ] errors?;
+    }* error?;
+}*;
+----

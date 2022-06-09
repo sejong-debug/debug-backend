@@ -1,0 +1,31 @@
+package org.sj.capstone.debug.debugbackend.entity;
+
+public enum CropType {
+
+    팥,
+    참께,
+    콩,
+    가지,
+    감자,
+    고추,
+    단호박,
+    들깨,
+    딸기,
+    무,
+    배,
+    배추,
+    벼,
+    사과,
+    상추,
+    수박,
+    애호박,
+    양배추,
+    오이,
+    옥수수,
+    쥬키니호박,
+    참외,
+    토마토,
+    파,
+    포도,
+    호박,
+}
