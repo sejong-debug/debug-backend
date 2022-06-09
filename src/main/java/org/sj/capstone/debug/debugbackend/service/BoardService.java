@@ -110,7 +110,8 @@ public class BoardService {
         Project project = projectRepository.findById(projectId).orElseThrow(() ->
                 new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, ">> projectId=" + projectId));
 
-        IssueDetectionDto issueDetectionDto = issueDetectionClient.request(1L, creationDto.getImage());
+        IssueDetectionDto issueDetectionDto = issueDetectionClient.request(
+                1L, project.getCropType(), creationDto.getImage());
 
         BoardImage boardImage = imageStore.storeImage(creationDto.getImage());
         boardImageRepository.save(boardImage);

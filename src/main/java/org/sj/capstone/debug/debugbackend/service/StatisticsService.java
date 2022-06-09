@@ -5,6 +5,7 @@ import org.sj.capstone.debug.debugbackend.dto.statistics.IssueWithProjectDto;
 import org.sj.capstone.debug.debugbackend.dto.statistics.StatisticsDto;
 import org.sj.capstone.debug.debugbackend.entity.CropType;
 import org.sj.capstone.debug.debugbackend.repository.StatisticsRepository;
+import org.sj.capstone.debug.debugbackend.util.IssueConst;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +25,7 @@ public class StatisticsService {
 
     public StatisticsDto getDiseaseWithCropTypes(CropType cropType, LocalDate startDate, LocalDate endDate) {
         startDate = (startDate != null) ? startDate : LocalDate.MIN;
-        endDate = (endDate != null) ? endDate : LocalDate.MAX;
+        endDate = (endDate != null) ? endDate : LocalDate.now();
         LocalDateTime startDateTime = LocalDateTime.of(startDate, LocalTime.MIN);
         LocalDateTime endDateTime = LocalDateTime.of(endDate, LocalTime.MAX);
 
@@ -57,18 +58,12 @@ public class StatisticsService {
         return result;
     }
 
-    public int getDiseaseCount(Long projectId) {
-        List<IssueWithProjectDto> data = statisticsRepository.findAllForStatisticsByProjectId(projectId);
-        int count = 0;
-        for (IssueWithProjectDto row: data){
-            Map<String, Double> issues = row.getIssue().getNameToProbs();
-            for (String key: issues.keySet()) {
-                if (issues.get(key) >= 0.5)
-                    count++;
-            }
-        }
-
-        return count;
+    public long getDiseaseCount(Long projectId) {
+        return statisticsRepository.findAllForStatisticsByProjectId(projectId).stream()
+                .mapToLong(issueWithProjectDto -> issueWithProjectDto.getIssue()
+                        .getNameToProbs().values().stream()
+                        .filter(prob -> prob > IssueConst.CONFIDENCE_THRESHOLD).count())
+                .sum();
     }
 
 }

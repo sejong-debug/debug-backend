@@ -2,10 +2,8 @@ package org.sj.capstone.debug.debugbackend.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.sj.capstone.debug.debugbackend.dto.issue.IssueDetectionDto;
-import org.sj.capstone.debug.debugbackend.error.ErrorCode;
-import org.sj.capstone.debug.debugbackend.error.exception.BusinessException;
+import org.sj.capstone.debug.debugbackend.entity.CropType;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
@@ -16,7 +14,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
 import java.util.Objects;
 
 @Component
@@ -47,9 +44,10 @@ public class IssueDetectionClient {
                 .build();
     }
 
-    public IssueDetectionDto request(long boardImageId, MultipartFile image) {
+    public IssueDetectionDto request(long boardImageId, CropType cropType, MultipartFile image) {
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
         builder.part("boardImageId", boardImageId);
+        builder.part("cropType", cropType.name());
         builder.part("image", image.getResource())
                 .filename(Objects.requireNonNull(image.getOriginalFilename()))
                 .contentType(MediaType.valueOf(Objects.requireNonNull(image.getContentType())));

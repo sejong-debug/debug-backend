@@ -13,6 +13,8 @@ import org.sj.capstone.debug.debugbackend.service.BoardService;
 import org.sj.capstone.debug.debugbackend.service.ProjectService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +55,8 @@ public class BoardController {
 
     @GetMapping
     public ResponseEntity<ApiResult<Slice<BoardDto>>> queryBoards(
-            @PathVariable long projectId, Pageable pageable) {
+            @PageableDefault(sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable,
+            @PathVariable long projectId) {
         Slice<BoardDto> boardSlice = boardService.getBoardSlice(pageable, projectId)
                 .map(boardDto -> {
                     boardDto.setBoardImageUri(createBoardImageUri(boardDto.getBoardImageId()));

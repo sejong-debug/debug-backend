@@ -31,8 +31,8 @@ public class StatisticsController {
     }
 
     @GetMapping("/projects/{projectId}")
-    public ResponseEntity<ApiResult<Integer>> getDiseaseCount(@PathVariable long projectId) {
-        ApiResult<Integer> result = ApiResult.<Integer>builder()
+    public ResponseEntity<ApiResult<Long>> getDiseaseCount(@PathVariable long projectId) {
+        ApiResult<Long> result = ApiResult.<Long>builder()
                 .data(statisticsService.getDiseaseCount(projectId))
                 .build();
 
