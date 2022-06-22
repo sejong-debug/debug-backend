@@ -23,7 +23,7 @@
   > `JUnit5`
 - Document
   > `Spring Rest Docs`, `Github Page`
-- Etc
+- ETC
   > `JWT`
 
 ## System Structure
@@ -40,16 +40,23 @@
 
 ## Preview
 
-![그림0](https://user-images.githubusercontent.com/49931252/174930949-88b7e684-6f95-4c6a-b412-d66f80976485.png)
-![그림1](https://user-images.githubusercontent.com/49931252/174930956-e61bf024-2da4-484d-9df3-da98b5b2de74.png)
-![그림2](https://user-images.githubusercontent.com/49931252/174930959-dfe6b7f1-f847-4c0b-9aa2-3a6c84c51e2b.png)
-![그림3](https://user-images.githubusercontent.com/49931252/174930963-c592e4ff-6828-4e12-87f3-76e9f73d4cdc.png)
-![그림4](https://user-images.githubusercontent.com/49931252/174930967-443c3077-9433-4255-b17a-dbaf120f4a2d.png)
-![그림5](https://user-images.githubusercontent.com/49931252/174930969-a4622585-84df-46fb-a2ed-6ee8e72f34a1.png)
-![그림6](https://user-images.githubusercontent.com/49931252/174930971-eca40563-49c0-4e23-9867-b993e025d167.png)
-![그림7](https://user-images.githubusercontent.com/49931252/174930973-383e15f7-f48d-4313-abf6-87b1342b3242.png)
-![그림8](https://user-images.githubusercontent.com/49931252/174930978-2afbe368-3de7-45d7-b3d8-b9739f1d9f3f.png)
-![그림9](https://user-images.githubusercontent.com/49931252/174930984-1660090a-16b0-4517-bdba-0fbc346ac6ce.png)
-![그림10](https://user-images.githubusercontent.com/49931252/174930985-d68493c1-9974-4e53-ba4b-b9c88c62e280.png)
-
+<div display=“flex”>
+    <img src = "https://user-images.githubusercontent.com/49931252/174930949-88b7e684-6f95-4c6a-b412-d66f80976485.png" width="30%" height="30%">
+    <img src = "https://user-images.githubusercontent.com/49931252/174930956-e61bf024-2da4-484d-9df3-da98b5b2de74.png" width="30%" height="30%">
+    <img src = "https://user-images.githubusercontent.com/49931252/174930959-dfe6b7f1-f847-4c0b-9aa2-3a6c84c51e2b.png" width="30%" height="30%">
+</div>
+<div display=“flex”>
+    <img src = "https://user-images.githubusercontent.com/49931252/174930963-c592e4ff-6828-4e12-87f3-76e9f73d4cdc.png" width="30%" height="30%">
+    <img src = "https://user-images.githubusercontent.com/49931252/174930967-443c3077-9433-4255-b17a-dbaf120f4a2d.png" width="30%" height="30%">
+    <img src = "https://user-images.githubusercontent.com/49931252/174930969-a4622585-84df-46fb-a2ed-6ee8e72f34a1.png" width="30%" height="30%">
+</div>
+<div display=“flex”>
+    <img src = "https://user-images.githubusercontent.com/49931252/174930971-eca40563-49c0-4e23-9867-b993e025d167.png" width="30%" height="30%">
+    <img src = "https://user-images.githubusercontent.com/49931252/174930973-383e15f7-f48d-4313-abf6-87b1342b3242.png" width="30%" height="30%">
+    <img src = "https://user-images.githubusercontent.com/49931252/174930978-2afbe368-3de7-45d7-b3d8-b9739f1d9f3f.png" width="30%" height="30%">
+</div>
+<div display=“flex”>
+    <img src = "https://user-images.githubusercontent.com/49931252/174930984-1660090a-16b0-4517-bdba-0fbc346ac6ce.png" width="30%" height="30%">
+    <img src = "https://user-images.githubusercontent.com/49931252/174930985-d68493c1-9974-4e53-ba4b-b9c88c62e280.png" width="30%" height="30%">
+</div>
 
